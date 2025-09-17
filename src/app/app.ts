@@ -1,5 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { Convite } from './convite/convite';
+import { bootstrapApplication } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -8,5 +10,7 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.scss'
 })
 export class App {
-  protected readonly title = signal('casamento-loren-kevyn-front');
 }
+
+
+
