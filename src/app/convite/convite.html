@@ -8,8 +8,12 @@
                             <div class="informacoes">
                                 <div class="texto">
                                     <h2>Kevyn & Amanda</h2>
-                                    <p>{{ nomeConvite }}<br>
-                                       O nosso grande dia será 1 de Março</p>
+                                    <p>
+                                       @if(convite$ | async; as convite){
+                                        {{convite.nomeConvite}}<br> 
+                                       }                              
+                                       O nosso grande dia será 1 de Março
+                                    </p>
                                     <div class="inner-shape">
                                         <img src="assets/images/shape15.svg" alt="">
                                     </div>
