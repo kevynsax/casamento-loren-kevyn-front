@@ -262,4 +262,46 @@
 			bottom: 0;
 		}
 	}
+
+	.left-img,
+	.right-img {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 50%;
+		height: 50%;
+
+		&:before {
+			position: absolute;
+			left: 2%;
+			top: 3%;
+			width: 96%;
+			height: 94%;
+			content: "";
+			border: 1px solid transparentize($white, .5);
+
+			@media(max-width:991px) {
+				top: 2%;
+				height: 96%;
+			}
+
+			@media(max-width:575px) {
+				display: none;
+			}
+		}
+
+		img {
+			object-fit: cover;
+			height: 100%;
+			width: 100%;
+		}
+	}
+
+	.right-img {
+		position: absolute;
+		left: auto;
+		top: auto;
+		right: 0;
+		bottom: 0;
+	}
 }

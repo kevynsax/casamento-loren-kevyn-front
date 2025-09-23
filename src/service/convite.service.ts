@@ -18,14 +18,18 @@ export class ConviteService {
         this.http.get<ConviteDTO>(`${this.apiUrl}/${id}`)
             .pipe(
                 catchError(this.handleError)
-            ).subscribe(this._conviteSelecionado);
+            )
+            .subscribe({
+                next: (convite) => this._conviteSelecionado.next(convite),
+                error: (err) => console.error('Erro ao carregar convite:', err)            
+            });
     }
 
     private handleError(error: any) {
         console.error('Erro na requisição:', error);
 
         if (error.error instanceof ErrorEvent) {
-            console.error('Erro do cliente:', error.error.message);
+            console.error('Erro convite selecionado: ', error.error.message);
         } else {
             console.error(`Código do erro: ${error.status}, Mensagem: ${error.error}`);
         }

@@ -3,6 +3,6 @@ import { Convite } from './convite/convite';
 import { Confirmacao } from './confirmacao/confirmacao';
 
 export const routes: Routes = [
-      { path: 'convite', component: Convite},
+      { path: 'convite/:id', component: Convite},
       { path: 'confirmacao', component: Confirmacao},
 ];

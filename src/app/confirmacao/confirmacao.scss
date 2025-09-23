@@ -2,108 +2,109 @@
 @use "../../mixins.scss" as *;
 
 .wpo-contact-section-s6 {
-	padding: 80px 0;
+  padding: 80px 0;
+  position: relative; // garante contexto pras imagens absolutas
 
-	.wpo-contact-section-wrapper {
-		max-width: 570px;
-		margin: 0 auto;
-		position: relative;
-		background: none;
-		z-index: 1;
-		border: 0;
-		box-shadow: none;
+  .wpo-contact-section-wrapper {
+    max-width: 570px;
+    margin: 0 auto;
+    position: relative;
+    background: none;
+    z-index: 1;
+    border: 0;
+    box-shadow: none;
 
-		@media(max-width:1399px) {
-			max-width: 530px;
-		}
+    @media(max-width:1399px) {
+      max-width: 530px;
+    }
 
-		@media(max-width:1199px) {
-			max-width: 500px;
-		}
+    @media(max-width:1199px) {
+      max-width: 500px;
+    }
 
-		.wpo-contact-section-inner {
-			position: relative;
-			background: none;
-			border-radius: 330px 330px 0px 0px;
-			padding: 30px;
-			border: 1px solid transparentize($theme-primary-color, .1);
+    .wpo-contact-section-inner {
+      position: relative;
+      background: none;
+      border-radius: 330px 330px 0px 0px;
+      padding: 30px;
+      border: 1px solid transparentize($theme-primary-color, .1);
 
-			@media(max-width:575px) {
-				padding: 15px;
-			}
-		}
+      @media(max-width:575px) {
+        padding: 15px;
+      }
+    }
 
-		.wpo-contact-form-area {
-			padding: 120px 40px 60px;
-			border: 1px solid #F3ECE9;
-			border-radius: 300px 300px 0px 0px;
-			background: $white;
+    .wpo-contact-form-area {
+      padding: 120px 40px 60px;
+      border: 1px solid #F3ECE9;
+      border-radius: 300px 300px 0px 0px;
+      background: $white;
 
-			@media(max-width:1199px) {
-				padding: 100px 40px 70px;
-			}
+      @media(max-width:1199px) {
+        padding: 100px 40px 70px;
+      }
 
-			@media(max-width:440px) {
-				padding: 60px 20px 30px;
-			}
+      @media(max-width:440px) {
+        padding: 60px 20px 30px;
+      }
 
-			.date {
-				.form-control {
-					background: transparent url(../images/date2.png) no-repeat calc(100% - 15px) center;
-				}
-			}
+      .date {
+        .form-control {
+          background: transparent url("/assets/images/date2.png") no-repeat calc(100% - 15px) center;
+        }
+      }
 
-			.wpo-section-title {
-				h2 {
-					font-size: 40px;
+      .wpo-section-title {
+        h2 {
+          font-size: 40px;
 
-					@media(max-width:440px) {
-						font-size: 25px;
-					}
-				}
-			}
-		}
-	}
+          @media(max-width:440px) {
+            font-size: 25px;
+          }
+        }
+      }
+    }
+  }
 
-	.left-img,
-	.right-img {
-		position: absolute;
-		left: 0;
-		top: 0;
-		width: 50%;
-		height: 50%;
+  .left-img,
+  .right-img {
+    position: absolute;
+    width: 50%;
+    height: 50%;
 
-		&:before {
-			position: absolute;
-			left: 2%;
-			top: 3%;
-			width: 96%;
-			height: 94%;
-			content: "";
-			border: 1px solid transparentize($white, .5);
+    &:before {
+      position: absolute;
+      left: 2%;
+      top: 3%;
+      width: 96%;
+      height: 94%;
+      content: "";
+      border: 1px solid transparentize($white, .5);
 
-			@media(max-width:991px) {
-				top: 2%;
-				height: 96%;
-			}
+      @media(max-width:991px) {
+        top: 2%;
+        height: 96%;
+      }
 
-			@media(max-width:575px) {
-				display: none;
-			}
-		}
+      @media(max-width:575px) {
+        display: none;
+      }
+    }
 
-		img {
-			object-fit: cover;
-			height: 100%;
-			width: 100%;
-		}
-	}
+    img {
+      object-fit: cover;
+      height: 100%;
+      width: 100%;
+    }
+  }
 
-	.right-img {
-		position: absolute;
-		left: auto;
-		top: auto;
-		right: 0;
-		bottom: 0;
-	}
+  .left-img {
+    top: 0;
+    left: 0;
+  }
+
+  .right-img {
+    right: 0;
+    bottom: 0;
+  }
 }

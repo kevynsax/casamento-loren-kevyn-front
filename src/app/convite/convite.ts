@@ -3,6 +3,7 @@ import { ConviteService } from '../../service/convite.service';
 import { Observable } from 'rxjs';
 import { ConviteDTO } from '../../type/convite.DTO';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-convite',
@@ -13,14 +14,16 @@ import { CommonModule } from '@angular/common';
 export class Convite implements OnInit {
   protected convite$!: Observable<ConviteDTO | null>;
 
-  constructor(private readonly conviteService: ConviteService) {
-    
-  }
+  constructor(
+    private readonly conviteService: ConviteService,
+    private readonly route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.convite$ = this.conviteService.conviteSelecionado;
-    this.conviteService.carregarConvite(51);
-    
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.conviteService.carregarConvite(id);
+   // como pegar no angular um parametro de uma url
   }
 }
 
