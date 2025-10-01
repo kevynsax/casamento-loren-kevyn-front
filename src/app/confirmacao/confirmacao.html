@@ -1,5 +1,4 @@
-        <!-- end of header -->
-        <!-- start wpo-page-title -->
+
         <section class="wpo-page-title">
             <div class="container">
                 <div class="row">
@@ -12,11 +11,10 @@
                             </ol>
                         </div>
                     </div>
-                </div> <!-- end row -->
-            </div> <!-- end container -->
+                </div>
+            </div>
         </section>
-        <!-- end page-title -->
-        <!-- start of wpo-contact-section -->
+
         <section class="wpo-contact-section-s6 section-padding" id="rsvp">
             <div class="container">
                 <div class="row justify-content-center">
@@ -25,54 +23,14 @@
                             <div class="wpo-contact-section-inner">
                                 <div class="wpo-contact-form-area">
                                     <div class="wpo-section-title">
-                                        <h2>Make an Inquiry</h2>
+                                        <h2>Comparecerá</h2>
                                     </div>
                                     <form method="post" class="contact-validation-active" id="contact-form-main">
-                                        <div>
-                                            <input type="text" class="form-control" name="name" id="name"
-                                                placeholder="Name">
-                                        </div>
-                                        <div>
-                                            <input type="email" class="form-control" name="email" id="email"
-                                                placeholder="Email">
-                                        </div>
-                                        <div>
-                                            <input type="text" class="form-control" name="phone" id="phone"
-                                                placeholder="Phone">
-                                        </div>
-                                        <div class="date">
-                                            <input class="form-control" name="date" autocomplete="off" type="text"
-                                                id="datepicker" placeholder="Wedding Date">
-                                        </div>
-                                        <div>
-                                            <select name="guest" class="form-control">
-                                                <option disabled="disabled" selected>Number Of Guests</option>
-                                                <option>01</option>
-                                                <option>02</option>
-                                                <option>03</option>
-                                                <option>04</option>
-                                                <option>05</option>
-                                            </select>
-                                        </div>
-                                        <div>
-                                            <select name="meal" class="form-control last">
-                                                <option disabled="disabled" selected>Meal Preferences</option>
-                                                <option>Chicken Soup</option>
-                                                <option>Motton Kabab</option>
-                                                <option>Chicken BBQ</option>
-                                                <option>Mix Salad</option>
-                                                <option>Beef Ribs </option>
-                                            </select>
-                                        </div>
+                                        <app-checkbox [(ngModel)]="aceitou"  name="confirmacao" label="Confirmo minha presença" required></app-checkbox>
                                         <div class="submit-area">
-                                            <button type="submit" class="theme-btn">Send An Inquiry</button>
+                                            <button type="submit" class="theme-btn">Confirmar</button>
                                             <div id="c-loader">
                                                 <i class="ti-reload"></i>
-                                            </div>
-                                        </div>
-                                        <div class="clearfix error-handling-messages">
-                                            <div id="success">Thank you</div>
-                                            <div id="error"> Error occurred while sending email. Please try again later.
                                             </div>
                                         </div>
                                     </form>

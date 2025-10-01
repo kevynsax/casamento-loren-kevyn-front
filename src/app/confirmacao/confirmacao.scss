@@ -54,6 +54,40 @@
         }
       }
 
+      .submit-area {
+          text-align: center;
+          width: 100%;
+          margin-bottom: 10px;
+          margin-left: 0;
+          				margin-top: 40px;
+				text-align: center;
+
+          			@include media-query(767px) {
+				margin-bottom: 0;
+			}
+				.theme-btn {
+          	background: $theme-primary-color;
+	color: $white;
+	display: inline-block;
+	font-weight: 500;
+	padding: 15px 45px;
+	border: 0;
+	text-transform: uppercase;
+	z-index: 1;
+	position: relative;
+	font-size: 18px;
+	font-size: calc-rem-value(18);
+	transition: all .3s;
+          				border-radius: 0px;
+				font-family: $base-font;
+				font-size: 16px;
+					background: $theme-primary-color;
+          
+				&:after {
+					border-radius: 0px;
+				}
+				}
+			}
       .wpo-section-title {
         h2 {
           font-size: 40px;
@@ -107,4 +141,100 @@
     right: 0;
     bottom: 0;
   }
+}
+
+// wpo-page-title
+
+.wpo-page-title {
+	background: url(/assets/images/page-title.jpg) no-repeat center top / cover;
+	min-height: 360px;
+	margin-bottom: 24px;
+	position: relative;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	z-index: 1;
+
+	@media(max-width: 767px) {
+		min-height: 250px;
+	}
+
+	.wpo-breadcumb-wrap {
+		text-align: center;
+
+		h2 {
+			font-weight: 400;
+			font-size: 45px;
+			line-height: 57px;
+			color: $dark-gray;
+			margin-bottom: 10px;
+
+			@media(max-width: 767px) {
+				font-size: 30px;
+				line-height: 55px;
+				margin-bottom: 10px;
+			}
+		}
+
+		ol {
+			padding-left: 0;
+			margin-bottom: 0;
+
+			li {
+				display: inline-block;
+				padding: 0px 15px;
+				color: $text-color;
+				position: relative;
+				font-size: 20px;
+
+				@media(max-width:767px) {
+					font-size: 18px;
+				}
+				@media(max-width:575px) {
+					font-size: 16px;
+			  		padding: 0 10px;
+				}
+
+				&:after {
+					content: "";
+					position: absolute;
+					right: -5px;
+					top: 50%;
+					transform: translateY(-50%);
+					width: 5px;
+					height: 5px;
+					background: $text-color;
+					border-radius: 50%;
+				}
+
+				&:last-child {
+					span {
+						color: #cbd4fd;
+					}
+
+					&:after {
+						display: none;
+					}
+				}
+
+				a {
+					color: $text-color;
+					font-size: 20px;
+					transition: all .3s;
+
+					@media(max-width:767px) {
+						font-size: 18px;
+					}
+
+					@media(max-width:575px) {
+						font-size: 16px;
+					}
+
+					&:hover {
+						color: $theme-primary-color;
+					}
+				}
+			}
+		}
+	}
 }
