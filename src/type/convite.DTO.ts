@@ -9,4 +9,5 @@ export interface Convidado{
     id: number;
     nome: String;
     statusPresenca: String;
+    selecionado: boolean;
 }

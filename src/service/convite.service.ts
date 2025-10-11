@@ -1,7 +1,7 @@
 import { BehaviorSubject, catchError, throwError } from "rxjs";
 import { ConviteDTO } from "../type/convite.DTO";
 import { HttpClient } from "@angular/common/http";
-import { inject, Injectable } from "@angular/core";
+import { Injectable } from "@angular/core";
 
 @Injectable({
     providedIn: 'root'
@@ -16,26 +16,18 @@ export class ConviteService {
 
     public carregarConvite = (id: number) => {
         this.http.get<ConviteDTO>(`${this.apiUrl}/${id}`)
-            .pipe(
-                catchError(this.handleError)
-            )
             .subscribe({
                 next: (convite) => this._conviteSelecionado.next(convite),
-                error: (err) => console.error('Erro ao carregar convite:', err)            
+                error: (err) => console.error('Erro ao carregar convite: ', err)            
             });
     }
 
-    private handleError(error: any) {
-        console.error('Erro na requisição:', error);
-
-        if (error.error instanceof ErrorEvent) {
-            console.error('Erro convite selecionado: ', error.error.message);
-        } else {
-            console.error(`Código do erro: ${error.status}, Mensagem: ${error.error}`);
-        }
-
-        return throwError(() => new Error('Algo deu errado; tente novamente mais tarde.'));
+    public confirmarPresenca = (idConvite: number, idConvidadoPresenca: number[]) => {
+        this.http.put<ConviteDTO>(`${this.apiUrl}`, {idConvite, idConvidadoPresenca})
+            .subscribe({
+                next: (convite) => this._conviteSelecionado.next(convite),
+                error: (err) => console.error('Erro ao confirmar presença: ', err)            
+            });        
     }
-
 }
 

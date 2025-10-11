@@ -23,7 +23,6 @@ export class Convite implements OnInit {
     this.convite$ = this.conviteService.conviteSelecionado;
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.conviteService.carregarConvite(id);
-   // como pegar no angular um parametro de uma url
   }
 }
 

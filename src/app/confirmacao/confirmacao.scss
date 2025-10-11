@@ -89,13 +89,19 @@
 				}
 			}
       .wpo-section-title {
-        h2 {
+        margin-bottom: 24px;
+		h2 {
           font-size: 40px;
-
+		  text-align: center;
           @media(max-width:440px) {
             font-size: 25px;
           }
         }
+		h5{
+			font-weight: 800 !important;
+			text-align: center;
+			
+		}
       }
     }
   }
@@ -148,7 +154,7 @@
 .wpo-page-title {
 	background: url(/assets/images/page-title.jpg) no-repeat center top / cover;
 	min-height: 360px;
-	margin-bottom: 24px;
+	margin-bottom: 0px;
 	position: relative;
 	display: flex;
 	justify-content: center;

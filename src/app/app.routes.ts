@@ -4,5 +4,5 @@ import { Confirmacao } from './confirmacao/confirmacao';
 
 export const routes: Routes = [
       { path: 'convite/:id', component: Convite},
-      { path: 'confirmacao', component: Confirmacao},
+      { path: 'confirmacao/:id', component: Confirmacao},
 ];
