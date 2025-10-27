@@ -23,22 +23,22 @@
                         <div class="wpo-contact-form-area">
                             <div class="wpo-section-title">
                                 <h2>Comparecerá</h2>
-                                <h5>Olá Joao pode marcar quem irá no casamento</h5>
+                                <h5>Olá {{ (convite | async)?.nomeConvite }} pode marcar quem irá no casamento</h5>
                             </div>
                             <form method="post" class="contact-validation-active" id="contact-form-main">
                                 @for(convidado of convidados(); track convidado.id){
-                                 <div>  <app-checkbox [(ngModel)]="convidado.selecionado" 
-                                        name="confirmacao" label={{convidado.nome}}
-                                        required></app-checkbox>
-                                 </div>
-                                 }
+                                <div> <app-checkbox [(ngModel)]="convidado.selecionado" name="confirmacao"
+                                        label={{convidado.nome}} required></app-checkbox>
+
+                                </div>
+                                }
                                 <div class="submit-area">
-                                    <button type="button" (click)="confirmarPresenca()" class="theme-btn">Confirmar</button>
+                                    <button type="button" (click)="confirmarPresenca()"
+                                        class="theme-btn">Confirmar</button>
                                     <div id="c-loader">
                                         <i class="ti-reload"></i>
                                     </div>
                                 </div>
-
                             </form>
                         </div>
                     </div>

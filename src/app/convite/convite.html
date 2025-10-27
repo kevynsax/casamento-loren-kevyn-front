@@ -12,22 +12,30 @@
                                        @if(convite$ | async; as convite){
                                         {{convite.nomeConvite}}<br> 
                                        }                              
-                                       O nosso grande dia será 1 de Março
+                                       O nosso grande dia será 25 de janeiro
                                     </p>
                                     <div class="inner-shape">
                                         <img src="assets/images/shape15.svg" alt="">
                                     </div>
                                     <ul>
-                                        <li>Domingo, 1 Março 2026 <br>
-                                            10:30 AM – O sol raiar </li>
-                                        <li>Santana do Parnaíba, São Paulo</li>
-                                        <li>(11) 9 9261-7404</li>
-                                        <li> <a class="popup-gmaps"
-                                                href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d25211.21212385712!2d144.95275648773628!3d-37.82748510398018!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0f11fd81%3A0x5045675218ce7e0!2zTWVsYm91cm5lIFZJQyAzMDA0LCDgpoXgprjgp43gpp_gp43gprDgp4fgprLgpr_gpq_gprzgpr4!5e0!3m2!1sbn!2sbd!4v1503742051881">
+                                        <li>Domingo, 25 Janeiro 2026 <br>
+                                            10:30 AM – 17:30 PM </li>
+                                        @if((convite$ | async)?.respondido){                                    
+                                          <li> <a class="popup-gmaps"
+                                                href="https://www.google.com/maps/place/Villa+Mantova+Eventos/@-23.4922519,-46.999631,17.06z/data=!4m6!3m5!1s0x94cf0fd8c6c02aef:0x1606d49b4de52e6f!8m2!3d-23.4921923!4d-46.9971517!16s%2Fg%2F11fl5ns1n_?entry=ttu&g_ep=EgoyMDI1MTAyMi4wIKXMDSoASAFQAw%3D%3D">
                                                 Ver Localização</a></li>
-                                        <li><a class=""
-                                               href=""> 
-                                               Confirmar Presença</a></li>
+                                                Atras do castelo da pamonha, siga os corações. <br> 
+                                                A localização não é precisa.                                        
+                                        } @else {
+                                          <li>Santana do Parnaíba, São Paulo</li>
+                                          <li>(61) 9 8589-1092</li>
+                                          <li>                                           
+                                            <a class=""
+                                            href="http://localhost:4200/confirmacao/{{(convite$ | async)?.id}}"> 
+                                               Confirmar Presença</a>
+                                          </li>
+                                        }
+                                               
                                     </ul>
                                 </div>
                                 <div class="shape-1"><img src="assets/images/corner1.svg" alt="">

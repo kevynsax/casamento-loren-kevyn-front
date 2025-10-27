@@ -3,7 +3,7 @@ import { Checkbox } from "../utils/checkbox/checkbox";
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { Convidado } from '../../type/convite.DTO';
+import { Convidado, ConviteDTO } from '../../type/convite.DTO';
 import { map, Observable } from 'rxjs';
 import { ConviteService } from '../../service/convite.service';
 
@@ -16,15 +16,18 @@ import { ConviteService } from '../../service/convite.service';
 export class Confirmacao implements OnInit {
 
   protected convidados = signal<Convidado[]>([]);
-
-
+  protected convite!: Observable<ConviteDTO | null>;
+  
   constructor(
     private readonly conviteService: ConviteService,
     private readonly route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-    this.conviteService.conviteSelecionado.pipe(
+    const convite$ = this.conviteService.conviteSelecionado;
+    this.convite = convite$;
+
+    convite$.pipe(
       map(convite => convite?.convidados ?? [])
     ).subscribe(convidados => {
       this.convidados.set(convidados);
