@@ -1,15 +1,16 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { Checkbox } from "../utils/checkbox/checkbox";
+import { Checkbox } from "../../utils/checkbox/checkbox";
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { Convidado, ConviteDTO } from '../../type/convite.DTO';
+import { Convidado, ConviteDTO } from '../../../type/convite.DTO';
 import { map, Observable } from 'rxjs';
-import { ConviteService } from '../../service/convite.service';
+import { ConviteService } from '../../../service/convite.service';
+import { Footer } from '../../footer/footer';
 
 @Component({
   selector: 'app-confirmacao',
-  imports: [FormsModule, Checkbox, CommonModule],
+    imports: [FormsModule, Checkbox, CommonModule, Footer],
   templateUrl: './confirmacao.html',
   styleUrl: './confirmacao.scss'
 })
@@ -17,7 +18,7 @@ export class Confirmacao implements OnInit {
 
   protected convidados = signal<Convidado[]>([]);
   protected convite!: Observable<ConviteDTO | null>;
-  
+
   constructor(
     private readonly conviteService: ConviteService,
     private readonly route: ActivatedRoute

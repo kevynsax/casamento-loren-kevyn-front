@@ -5,7 +5,7 @@
                 <div class="wpo-breadcumb-wrap">
                     <h2>R.S.V.P</h2>
                     <ol class="wpo-breadcumb-wrap">
-                        <li><a href="index.html">Home</a></li>
+                        <li><a href="../../../index.html">Home</a></li>
                         <li>RSVP</li>
                     </ol>
                 </div>
@@ -26,15 +26,19 @@
                                 <h5>Olá {{ (convite | async)?.nomeConvite }} pode marcar quem irá no casamento</h5>
                             </div>
                             <form method="post" class="contact-validation-active" id="contact-form-main">
-                                @for(convidado of convidados(); track convidado.id){
-                                <div> <app-checkbox [(ngModel)]="convidado.selecionado" name="confirmacao"
-                                        label={{convidado.nome}} required></app-checkbox>
+                                @for (convidado of convidados(); track convidado.id) {
+                                    <div>
+                                        <app-checkbox
+                                            [(ngModel)]="convidado.selecionado" name="confirmacao"
+                                            label={{convidado.nome}} required></app-checkbox>
 
-                                </div>
+                                    </div>
                                 }
                                 <div class="submit-area">
-                                    <button type="button" (click)="confirmarPresenca()"
-                                        class="theme-btn">Confirmar</button>
+                                    <button
+                                        type="button" (click)="confirmarPresenca()"
+                                        class="theme-btn">Confirmar
+                                    </button>
                                     <div id="c-loader">
                                         <i class="ti-reload"></i>
                                     </div>
@@ -49,4 +53,13 @@
     <div class="left-img"><img src="assets/images/img-1.jpg" alt=""></div>
     <div class="right-img"><img src="assets/images/img-2.jpg" alt=""></div>
 </section>
-<!-- end of wpo-contact-section -->
+<section class="wpo-contact-map-section">
+    <h2 class="hidden">Contact map</h2>
+    <div class="wpo-contact-map">
+        <iframe
+            src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d7318.78563834488!2d-46.995526311195306!3d-23.482356550722553!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sbr!4v1761783079362!5m2!1sen!2sbr"
+            allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+</section>
+<app-footer></app-footer>
