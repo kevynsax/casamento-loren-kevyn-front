@@ -1,14 +1,16 @@
-<div class="menu">
+<div class="menu" [class.sticky]="isSticky()">
     <div class="logo">
         <span>K</span>
         <span>&</span>
         <span>A</span>
     </div>
     <div class="menu-items">
-        <span>Home</span>
-        <span class="active">História</span>
-        <span>Mural</span>
-        <span>Presentes</span>
-        <span>Album</span>
+        @for (item of menuItems; track item.sectionId) {
+            <span
+                [class.active]="isActive(item.sectionId)"
+                (click)="scrollToSection(item.sectionId)">
+                {{ item.label }}
+            </span>
+        }
     </div>
 </div>
