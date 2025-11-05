@@ -1,269 +1,212 @@
 @use "../../variables" as *;
 @use "../../mixins" as *;
 
-.wpo-portfolio-section,
-.wpo-portfolio-section-s2 {
+.wpo-portfolio-section {
     position: relative;
-    padding-top: 10px;
-    overflow: hidden;
-    padding-bottom: 60px;
+    padding-top: 80px;
+    padding-bottom: 80px;
+    background: $section-bg-color-s3;
 
-    &::before {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 30%;
-        content: "";
-        background: $section-bg-color-s3;
+    .section-title {
+        h2 {
+            font-size: 48px;
+            color: $theme-primary-color;
+            font-family: $heading-font;
+            margin-bottom: 10px;
+
+            @media (max-width: 767px) {
+                font-size: 36px;
+            }
+        }
+
+        p {
+            font-size: 18px;
+            color: #666;
+        }
     }
 
-    .container-fluid {
-        padding: 0;
-    }
+    .photo-mosaic {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 15px;
+        padding: 20px 0;
 
-    .portfolio-grids {
+        @media (max-width: 767px) {
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+        }
 
-        .grid {
+        .mosaic-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            cursor: pointer;
+            aspect-ratio: 1;
+            transition: transform 0.3s ease;
+
+            &:hover {
+                transform: scale(1.05);
+                z-index: 1;
+
+                .mosaic-overlay {
+                    opacity: 1;
+                }
+            }
+
             img {
                 width: 100%;
-            }
-        }
-
-        .owl-stage-outer {
-            padding-top: 145px;
-
-            @media(max-width:991px) {
-                padding-top: 0px;
-            }
-        }
-
-        &.owl-carousel .owl-item {
-            &:nth-child(even) .grid {
-                @media(min-width:991px) {
-                    transform: translateY(0);
-                    animation: margin 10s linear infinite;
-                }
+                height: 100%;
+                object-fit: cover;
+                display: block;
+                transition: transform 0.3s ease;
             }
 
-            &:nth-child(odd) .grid {
-                @media(min-width:991px) {
-                    transform: translateY(0);
-                    animation: marginOdd 10s linear infinite;
-                }
-            }
-
-            @-webkit-keyframes margin {
-                0% {
-                    transform: translateY(-145px);
-                }
-
-                50% {
-                    transform: translateY(-50px);
-                }
-
-                100% {
-                    transform: translateY(-145px);
-
-                }
-            }
-
-            @keyframes margin {
-                0% {
-                    transform: translateY(-145px);
-
-                }
-
-                50% {
-                    transform: translateY(-50px);
-                }
-
-                100% {
-                    transform: translateY(-145px);
-
-                }
-            }
-
-            @-webkit-keyframes marginOdd {
-                0% {
-                    transform: translateY(0);
-                }
-
-                50% {
-                    transform: translateY(-145px);
-
-                }
-
-                100% {
-                    transform: translateY(0);
-                }
-            }
-
-            @keyframes marginOdd {
-                0% {
-                    transform: translateY(0);
-                }
-
-                50% {
-                    transform: translateY(-145px);
-
-                }
-
-                100% {
-                    transform: translateY(0);
-                }
-            }
-        }
-
-        .owl-controls {
-            width: 100%;
-            margin: 0;
-            position: absolute;
-            left: 0;
-            top: 50%;
-            @include translatingY();
-        }
-
-        .owl-nav [class*=owl-] {
-            padding: 0;
-            margin: 0;
-            color: $theme-primary-color;
-            @include transition-time(0.3s);
-            border: 0;
-            background: none;
-
-            .fi {
-                &::before {
-                    font-size: 20px;
-                    color: $white;
-                }
-            }
-        }
-
-        .owl-nav .owl-prev,
-        .owl-nav .owl-next {
-            position: absolute;
-            top: 50%;
-            @include translatingY();
-            background: $theme-primary-color;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            opacity: 0;
-            transition: all .3s;
-
-            @media(max-width:575px) {
-                display: none;
-            }
-        }
-
-        .owl-nav .owl-prev {
-            left: 40px;
-        }
-
-        .owl-nav .owl-next {
-            right: 40px;
-        }
-
-        .owl-dots {
-            margin-top: 0px;
-            position: absolute;
-            left: 50%;
-            bottom: -30px;
-            transform: translateX(-50%);
-
-            @media(min-width:575px) {
-                display: none;
-            }
-
-            button {
-                width: 10px;
-                height: 12px;
-                border: 0;
-                background: $theme-primary-color;
-                margin-right: 10px;
-                border-radius: 50%;
-            }
-
-            .owl-dot.active {
-                background-color: $theme-primary-color;
-            }
-        }
-
-        &:hover {
-
-            .owl-nav .owl-prev,
-            .owl-nav .owl-next {
-                opacity: 1;
-
-            }
-        }
-    }
-
-    .grid {
-        padding: 15px;
-        background: $white;
-
-        .img-holder {
-            position: relative;
-
-            .hover-content {
-                transition: all .3s;
+            .mosaic-overlay {
                 position: absolute;
-                left: 50%;
-                top: 50%;
-                transform: translate(-50%, -50%);
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.6);
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 opacity: 0;
-                text-align: center;
-                z-index: 11;
+                transition: opacity 0.3s ease;
 
                 i {
-                    font-size: 30px;
-                    color: $dark-gray;
+                    color: white;
+                    font-size: 32px;
                 }
             }
-
-            &:before {
-                position: absolute;
-                left: 2%;
-                top: 2%;
-                width: 96%;
-                height: 96%;
-                content: "";
-                background: rgba(255, 255, 255, 0.8);
-                opacity: 0;
-                transition: all .3s;
-                transform: scale(0);
-                z-index: 1;
-            }
         }
     }
 
-    .img-holder:hover .hover-content {
-        opacity: 1;
+    // Lightbox styles
+    .lightbox-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.95);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: fadeIn 0.3s ease;
     }
 
-    .img-holder:hover {
-        &:before {
+    .lightbox-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 60px 20px;
+    }
+
+    .lightbox-close,
+    .lightbox-prev,
+    .lightbox-next {
+        position: absolute;
+        background: $theme-primary-color;
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 10001;
+
+        &:hover {
+            background: lighten($theme-primary-color, 10%);
+            transform: scale(1.1);
+        }
+
+        svg {
+            width: 24px;
+            height: 24px;
+            color: $white;
+        }
+    }
+
+    .lightbox-close {
+        top: 20px;
+        right: 20px;
+    }
+
+    .lightbox-prev {
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+
+        &:hover {
+            transform: translateY(-50%) scale(1.1);
+        }
+    }
+
+    .lightbox-next {
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+
+        &:hover {
+            transform: translateY(-50%) scale(1.1);
+        }
+    }
+
+    .lightbox-content {
+        max-width: 90vw;
+        max-height: 90vh;
+        position: relative;
+        animation: zoomIn 0.3s ease;
+
+        img {
+            max-width: 100%;
+            max-height: 85vh;
+            width: auto;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .lightbox-counter {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 16px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 8px 20px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
             opacity: 1;
-            transform: scale(1);
         }
-
     }
 
-    &.pt-120 {
-        padding-top: 120px;
-
-        @include media-query(991px) {
-            padding-top: 90px;
+    @keyframes zoomIn {
+        from {
+            transform: scale(0.8);
+            opacity: 0;
         }
-
-        @include media-query(767px) {
-            padding-top: 80px;
-        }
-
-        @include media-query(575px) {
-            padding-top: 60px;
+        to {
+            transform: scale(1);
+            opacity: 1;
         }
     }
 

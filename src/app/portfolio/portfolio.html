@@ -1,66 +1,60 @@
 <section class="wpo-portfolio-section section-padding pt-120" id="gallery">
-    <h2 class="hidden">some</h2>
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
-                <div class="portfolio-grids gallery-container clearfix portfolio-slide owl-carousel">
-                    <div class="grid">
-                        <div class="img-holder">
-                            <a href="assets/images/portfolio/1.jpg" class="fancybox"
-                               data-fancybox-group="gall-1">
-                                <img src="assets/images/portfolio/1.jpg" alt class="img img-responsive">
-                                <div class="hover-content">
-                                    <i class="ti-plus"></i>
-                                </div>
-                            </a>
+                <div class="section-title text-center mb-5">
+                    <h2>Nossa Galeria</h2>
+                    <p>Momentos especiais capturados</p>
+                </div>
+
+                <div class="photo-mosaic">
+                    @for (image of images; track image.id; let i = $index) {
+                        <div class="mosaic-item" (click)="openLightbox(i)">
+                            <img [src]="image.src" [alt]="image.alt" loading="lazy">
+                            <div class="mosaic-overlay">
+                                <i class="ti-plus"></i>
+                            </div>
                         </div>
-                    </div>
-                    <div class="grid">
-                        <div class="img-holder">
-                            <a href="assets/images/portfolio/2.jpg" class="fancybox"
-                               data-fancybox-group="gall-1">
-                                <img src="assets/images/portfolio/2.jpg" alt class="img img-responsive">
-                                <div class="hover-content">
-                                    <i class="ti-plus"></i>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="grid">
-                        <div class="img-holder">
-                            <a href="assets/images/portfolio/3.jpg" class="fancybox"
-                               data-fancybox-group="gall-1">
-                                <img src="assets/images/portfolio/3.jpg" alt class="img img-responsive">
-                                <div class="hover-content">
-                                    <i class="ti-plus"></i>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="grid">
-                        <div class="img-holder">
-                            <a href="assets/images/portfolio/4.jpg" class="fancybox"
-                               data-fancybox-group="gall-1">
-                                <img src="assets/images/portfolio/4.jpg" alt class="img img-responsive">
-                                <div class="hover-content">
-                                    <i class="ti-plus"></i>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="grid">
-                        <div class="img-holder">
-                            <a href="assets/images/portfolio/5.jpg" class="fancybox"
-                               data-fancybox-group="gall-1">
-                                <img src="assets/images/portfolio/5.jpg" alt class="img img-responsive">
-                                <div class="hover-content">
-                                    <i class="ti-plus"></i>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
+                    }
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Lightbox Modal -->
+    @if (selectedImageIndex() !== null) {
+        <div class="lightbox-backdrop" (click)="closeLightbox()">
+            <div class="lightbox-container" (click)="$event.stopPropagation()">
+                <button class="lightbox-close" (click)="closeLightbox()" aria-label="Close">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+
+                @if (selectedImageIndex()! > 0) {
+                    <button class="lightbox-prev" (click)="previousImage()" aria-label="Previous">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+                }
+
+                <div class="lightbox-content">
+                    <img [src]="images[selectedImageIndex()!].src" [alt]="images[selectedImageIndex()!].alt">
+                    <div class="lightbox-counter">
+                        {{ selectedImageIndex()! + 1 }} / {{ images.length }}
+                    </div>
+                </div>
+
+                @if (selectedImageIndex()! < images.length - 1) {
+                    <button class="lightbox-next" (click)="nextImage()" aria-label="Next">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
+                }
+            </div>
+        </div>
+    }
 </section>
