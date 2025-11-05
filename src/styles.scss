@@ -2,6 +2,8 @@
 @use './variables' as *;
 @use './mixins' as *;
 
+@import 'animate.css';
+
 :root {
     scroll-behavior: unset;
 }

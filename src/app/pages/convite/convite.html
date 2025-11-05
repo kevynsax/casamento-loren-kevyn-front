@@ -12,14 +12,14 @@
                                        @if(convite$ | async; as convite){
                                         {{convite.nomeConvite}}<br>
                                        }
-                                       O nosso grande dia será 25 de janeiro
+                                       O nosso grande dia será {{ formatarData(dataCasamento) }}
                                     </p>
                                     <div class="inner-shape">
                                         <img src="../../../assets/images/shape15.svg" alt="">
                                     </div>
                                     <ul>
-                                        <li>Domingo, 25 Janeiro 2026 <br>
-                                            10:30 AM – 17:30 PM </li>
+                                        <li>{{ formatarDataCompleta(dataCasamento) | titlecase }} <br>
+                                            {{ formatarHora(inicioCerimonia) }} – {{ formatarHora(fimCerimonia) }} </li>
                                         @if((convite$ | async)?.respondido){
                                           <li> <a class="popup-gmaps"
                                                 href="https://www.google.com/maps/place/Villa+Mantova+Eventos/@-23.4922519,-46.999631,17.06z/data=!4m6!3m5!1s0x94cf0fd8c6c02aef:0x1606d49b4de52e6f!8m2!3d-23.4921923!4d-46.9971517!16s%2Fg%2F11fl5ns1n_?entry=ttu&g_ep=EgoyMDI1MTAyMi4wIKXMDSoASAFQAw%3D%3D">

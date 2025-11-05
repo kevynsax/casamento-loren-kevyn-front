@@ -18,7 +18,7 @@ export class Checkbox implements ControlValueAccessor {
   @Input() label: string = '';
   @Input() disabled: boolean = false;
   @Input() id: string = '';
-  
+
   @Output() checkChange = new EventEmitter<boolean>();
 
   private _checked: boolean = false;
@@ -53,7 +53,7 @@ export class Checkbox implements ControlValueAccessor {
   }
 
   onCheckboxChange(event: Event): void {
-    this.checked = !this.checked; 
+    this.checked = !this.checked;
     this.onTouched();
   }
 }
