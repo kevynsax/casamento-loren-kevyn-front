@@ -183,6 +183,68 @@
     animation: fadeIn 0.3s ease;
 }
 
+// Guest Info Styles
+.guest-info-form {
+    animation: fadeIn 0.3s ease;
+
+    .info-header {
+        text-align: center;
+        margin-bottom: 30px;
+
+        h3 {
+            font-size: 22px;
+            color: $theme-primary-color;
+            margin: 0 0 10px 0;
+            font-family: $heading-font;
+        }
+
+        p {
+            color: #666;
+            margin: 0;
+            font-size: 15px;
+        }
+    }
+
+    .guest-form {
+        .form-group {
+            margin-bottom: 25px;
+
+            label {
+                display: block;
+                margin-bottom: 8px;
+                color: #333;
+                font-weight: 600;
+                font-size: 14px;
+            }
+
+            input, textarea {
+                width: 100%;
+                padding: 12px 15px;
+                border: 2px solid #e0e0e0;
+                border-radius: 8px;
+                font-size: 16px;
+                transition: all 0.3s ease;
+                font-family: $base-font;
+
+                &:focus {
+                    outline: none;
+                    border-color: $theme-primary-color;
+                }
+
+                &::placeholder {
+                    color: #999;
+                }
+            }
+
+            textarea {
+                resize: vertical;
+                min-height: 100px;
+                line-height: 1.6;
+            }
+        }
+    }
+}
+
 // PIX Styles
 .pix-content {
     .pix-info {

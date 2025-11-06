@@ -21,13 +21,49 @@
                 </div>
 
                 <div class="modal-body">
-                    <div class="payment-method-selector">
+                    <!-- Guest Info Step -->
+                    @if (currentStep() === 'info') {
+                        <div class="guest-info-form">
+                            <div class="info-header">
+                                <h3>Queremos saber quem está nos presenteando! ❤️</h3>
+                                <p>Por favor, nos conte quem você é e deixe uma mensagem especial.</p>
+                            </div>
+
+                            <form class="guest-form">
+                                <div class="form-group">
+                                    <label for="guestName">Seu Nome *</label>
+                                    <input
+                                        type="text"
+                                        id="guestName"
+                                        [(ngModel)]="guestName"
+                                        name="guestName"
+                                        placeholder="Digite seu nome completo"
+                                        required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="guestMessage">Mensagem para os Noivos *</label>
+                                    <textarea
+                                        id="guestMessage"
+                                        [(ngModel)]="guestMessage"
+                                        name="guestMessage"
+                                        placeholder="Deixe uma mensagem carinhosa para nós..."
+                                        rows="4"
+                                        required></textarea>
+                                </div>
+                            </form>
+                        </div>
+                    }
+
+                    <!-- Payment Method Step -->
+                    @if (currentStep() === 'payment') {
+                        <div class="payment-method-selector">
                         <button
                             class="payment-method-btn"
                             [class.active]="selectedPaymentMethod() === 'pix'"
                             (click)="selectPaymentMethod('pix')">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+                            <svg fill="currentColor" width="24" height="24" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11.917 11.71a2.046 2.046 0 0 1-1.454-.602l-2.1-2.1a.4.4 0 0 0-.551 0l-2.108 2.108a2.044 2.044 0 0 1-1.454.602h-.414l2.66 2.66c.83.83 2.177.83 3.007 0l2.667-2.668h-.253zM4.25 4.282c.55 0 1.066.214 1.454.602l2.108 2.108a.39.39 0 0 0 .552 0l2.1-2.1a2.044 2.044 0 0 1 1.453-.602h.253L9.503 1.623a2.127 2.127 0 0 0-3.007 0l-2.66 2.66h.414z"/><path d="m14.377 6.496-1.612-1.612a.307.307 0 0 1-.114.023h-.733c-.379 0-.75.154-1.017.422l-2.1 2.1a1.005 1.005 0 0 1-1.425 0L5.268 5.32a1.448 1.448 0 0 0-1.018-.422h-.9a.306.306 0 0 1-.109-.021L1.623 6.496c-.83.83-.83 2.177 0 3.008l1.618 1.618a.305.305 0 0 1 .108-.022h.901c.38 0 .75-.153 1.018-.421L7.375 8.57a1.034 1.034 0 0 1 1.426 0l2.1 2.1c.267.268.638.421 1.017.421h.733c.04 0 .079.01.114.024l1.612-1.612c.83-.83.83-2.178 0-3.008z"/>
                             </svg>
                             PIX
                         </button>
@@ -102,15 +138,15 @@
                         <div class="payment-content card-content">
                             <form class="card-form">
                                 <div class="form-group">
-                                    <label for="cardNumber">Número do Cartão</label>
+                                    <label for="cardCpf">CPF</label>
                                     <input
                                         type="text"
-                                        id="cardNumber"
-                                        [(ngModel)]="cardNumber"
-                                        name="cardNumber"
-                                        (input)="formatCardNumber($event)"
-                                        placeholder="1234 5678 9012 3456"
-                                        maxlength="19">
+                                        id="cardCpf"
+                                        [(ngModel)]="cardCpf"
+                                        name="cardCpf"
+                                        (input)="formatCpf($event)"
+                                        placeholder="000.000.000-00"
+                                        maxlength="14">
                                 </div>
 
                                 <div class="form-group">
@@ -122,6 +158,18 @@
                                         name="cardName"
                                         placeholder="NOME COMPLETO"
                                         style="text-transform: uppercase;">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="cardNumber">Número do Cartão</label>
+                                    <input
+                                        type="text"
+                                        id="cardNumber"
+                                        [(ngModel)]="cardNumber"
+                                        name="cardNumber"
+                                        (input)="formatCardNumber($event)"
+                                        placeholder="1234 5678 9012 3456"
+                                        maxlength="19">
                                 </div>
 
                                 <div class="form-row">
@@ -151,10 +199,18 @@
                             </form>
                         </div>
                     }
+                }
                 </div>
 
                 <div class="modal-footer">
-                    @if (selectedPaymentMethod() === 'credit-card') {
+                    @if (currentStep() === 'info') {
+                        <button
+                            class="btn-primary"
+                            [disabled]="!isGuestInfoValid()"
+                            (click)="proceedToPayment()">
+                            Continuar para Pagamento
+                        </button>
+                    } @else if (selectedPaymentMethod() === 'credit-card') {
                         <button
                             class="btn-primary"
                             [disabled]="!isFormValid() || isProcessing()"
@@ -164,18 +220,6 @@
                                 Processando...
                             } @else {
                                 Pagar R$ {{ product.salePrice.toFixed(2) }}
-                            }
-                        </button>
-                    } @else {
-                        <button
-                            class="btn-primary"
-                            [disabled]="isProcessing()"
-                            (click)="processPayment()">
-                            @if (isProcessing()) {
-                                <span class="spinner"></span>
-                                Confirmando...
-                            } @else {
-                                Confirmar Pagamento
                             }
                         </button>
                     }
