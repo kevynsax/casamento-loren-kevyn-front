@@ -4,6 +4,7 @@ import { Cover } from '../../cover/cover';
 import { Story } from '../../story/story';
 import { Footer } from '../../footer/footer';
 import { Portfolio } from '../../portfolio/portfolio';
+import { Shop } from '../../shop/shop';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,8 @@ import { Portfolio } from '../../portfolio/portfolio';
         Cover,
         Story,
         Footer,
-        Portfolio
+        Portfolio,
+        Shop
     ],
   templateUrl: './home.html',
   styleUrl: './home.scss'

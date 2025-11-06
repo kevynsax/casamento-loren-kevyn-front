@@ -1,0 +1,30 @@
+
+<div class="wpo-product-wrap">
+    <div class="row">
+        <div class="wpo-section-title">
+            <span>Presentes</span>
+            <h2>Você pode nos presentear</h2>
+        </div>
+    </div>
+    <div class="row">
+        @for (product of products; track product.id) {
+            <div class="col col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+                <div class="wpo-product-item wow fadeInUp" [attr.data-wow-duration]="product.animationDuration">
+                    <div class="wpo-product-img">
+                        <img [src]="product.image" [alt]="product.name">
+                        <ul>
+                            <li><a href="cart.html">Presentear</a></li>
+                        </ul>
+                    </div>
+                    <div class="wpo-product-text">
+                        <h3><a href="shop-single.html">{{ product.name }}</a></h3>
+                        <ul>
+                            <li>{{ formatPrice(product.originalPrice) }}</li>
+                            <li>{{ formatPrice(product.salePrice) }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
