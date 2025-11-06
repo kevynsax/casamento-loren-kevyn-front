@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { PaymentModal } from './payment-modal/payment-modal';
 
 interface Product {
   id: number;
@@ -12,11 +13,13 @@ interface Product {
 
 @Component({
   selector: 'app-shop',
-  imports: [CommonModule],
+  imports: [CommonModule, PaymentModal],
   templateUrl: './shop.html',
   styleUrl: './shop.scss'
 })
 export class Shop {
+  protected selectedProduct = signal<Product | null>(null);
+  protected isModalOpen = signal(false);
   protected products: Product[] = [
     {
       id: 1,
@@ -116,6 +119,20 @@ export class Shop {
     }
   ];
 
+
+  protected openPaymentModal(product: Product): void {
+    this.selectedProduct.set(product);
+    this.isModalOpen.set(true);
+    document.body.style.overflow = 'hidden';
+  }
+
+  protected closePaymentModal(): void {
+    this.isModalOpen.set(false);
+    document.body.style.overflow = '';
+    setTimeout(() => {
+      this.selectedProduct.set(null);
+    }, 300);
+  }
   protected formatPrice(price: number): string {
     return `$${price.toFixed(2)}`;
   }

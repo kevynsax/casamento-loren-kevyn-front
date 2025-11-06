@@ -123,7 +123,7 @@
         z-index: 10001;
 
         &:hover {
-            background: lighten($theme-primary-color, 10%);
+            background: rgba($theme-primary-color, 10%);
             transform: scale(1.1);
         }
 

@@ -13,11 +13,11 @@
                     <div class="wpo-product-img">
                         <img [src]="product.image" [alt]="product.name">
                         <ul>
-                            <li><a href="cart.html">Presentear</a></li>
+                            <li><a (click)="openPaymentModal(product)" style="cursor: pointer;">Presentear</a></li>
                         </ul>
                     </div>
                     <div class="wpo-product-text">
-                        <h3><a href="shop-single.html">{{ product.name }}</a></h3>
+                        <h3><a style="cursor: pointer;">{{ product.name }}</a></h3>
                         <ul>
                             <li>{{ formatPrice(product.originalPrice) }}</li>
                             <li>{{ formatPrice(product.salePrice) }}</li>
@@ -28,3 +28,10 @@
         }
     </div>
 </div>
+
+<app-payment-modal
+    [product]="selectedProduct()"
+    [isOpen]="isModalOpen()"
+    (close)="closePaymentModal()">
+</app-payment-modal>
+
