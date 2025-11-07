@@ -1,8 +1,11 @@
-import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
+import { Component, EventEmitter, Input, Output, signal, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProductDto } from '../../../type/Product.DTO';
 import { CompraService } from '../../../service/compra.service';
+import * as QRCode from 'qrcode';
+import { interval, Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 type PaymentMethod = 'pix' | 'credit-card';
 
@@ -13,7 +16,7 @@ type PaymentMethod = 'pix' | 'credit-card';
     templateUrl: './payment-modal.html',
     styleUrl: './payment-modal.scss'
 })
-export class PaymentModal {
+export class PaymentModal implements OnDestroy {
     @Input() product: ProductDto | null = null;
     @Input() isOpen = false;
     @Output() close = new EventEmitter<void>();
@@ -37,8 +40,10 @@ export class PaymentModal {
     // Pix
     protected pixKey = signal('');
     protected pixCopied = signal(false);
+    protected qrCodeDataUrl = signal<string>('');
 
     private intencaoCompraId: number | null = null;
+    private pollingSubscription?: Subscription;
 
     constructor(private compraService: CompraService) {
     }
@@ -57,11 +62,12 @@ export class PaymentModal {
                 idProduto: this.product.id
             }).subscribe({
                 next: (response) => {
-                    alert(response.qrCodePix);
                     this.intencaoCompraId = response.id;
                     this.pixKey.set(response.qrCodePix);
+                    this.generateQRCode(response.qrCodePix);
                     this.isProcessing.set(false);
                     this.currentStep.set('payment');
+                    this.startPollingPaymentStatus();
                 },
                 error: (err: any) => {
                     console.error('Erro ao criar intenção de compra:', err);
@@ -73,11 +79,47 @@ export class PaymentModal {
         }
     }
 
+    private startPollingPaymentStatus(): void {
+        if (!this.intencaoCompraId) {
+            return;
+        }
+
+        // Poll every 2 seconds
+        this.pollingSubscription = interval(2000)
+            .pipe(
+                switchMap(() => this.compraService.verificarStatusCompra(this.intencaoCompraId!))
+            )
+            .subscribe({
+                next: (compra) => {
+                    if(!compra)
+                        return;
+
+                    this.stopPolling();
+                    this.paymentSuccess.set(true);
+                },
+                error: (err: any) => {
+                    console.error('Erro ao verificar status da compra:', err);
+                }
+            });
+    }
+
+    private stopPolling(): void {
+        if (this.pollingSubscription) {
+            this.pollingSubscription.unsubscribe();
+            this.pollingSubscription = undefined;
+        }
+    }
+
+    ngOnDestroy(): void {
+        this.stopPolling();
+    }
+
     protected isGuestInfoValid(): boolean {
         return this.guestName.trim().length > 0 && this.guestMessage.trim().length > 0;
     }
 
     protected closeModal(): void {
+        this.stopPolling();
         this.resetForm();
         this.close.emit();
     }
@@ -87,6 +129,24 @@ export class PaymentModal {
             this.pixCopied.set(true);
             setTimeout(() => this.pixCopied.set(false), 2000);
         });
+    }
+
+    private generateQRCode(pixKey: string): void {
+        if (pixKey) {
+            QRCode.toDataURL(pixKey, {
+                errorCorrectionLevel: 'M',
+                margin: 1,
+                width: 300,
+                color: {
+                    dark: '#000000',
+                    light: '#FFFFFF'
+                }
+            }).then((url: string) => {
+                this.qrCodeDataUrl.set(url);
+            }).catch((err: any) => {
+                console.error('Erro ao gerar QR Code:', err);
+            });
+        }
     }
 
     protected processPayment(): void {
@@ -162,6 +222,7 @@ export class PaymentModal {
         this.pixCopied.set(false);
         this.intencaoCompraId = null;
         this.pixKey.set('');
+        this.qrCodeDataUrl.set('');
     }
 
     protected isFormValid(): boolean {

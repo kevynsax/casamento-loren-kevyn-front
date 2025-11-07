@@ -268,6 +268,15 @@
         justify-content: center;
         margin-bottom: 30px;
 
+        .qr-code-image {
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            background: white;
+            max-width: 300px;
+            height: auto;
+        }
+
         .qr-code-placeholder {
             border: 2px solid #e0e0e0;
             border-radius: 12px;
