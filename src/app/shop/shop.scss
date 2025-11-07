@@ -208,5 +208,88 @@
                 }
             }
         }
+
+        // Unavailable product styles
+        &.unavailable {
+            opacity: 0.6;
+            pointer-events: none;
+            position: relative;
+
+            .wpo-product-img {
+                &::after,
+                &::before {
+                    border-color: #999;
+                }
+
+                img {
+                    filter: grayscale(50%);
+                }
+
+                ul {
+                    li {
+                        a.disabled {
+                            background: #ccc;
+                            color: #666;
+                            cursor: not-allowed;
+                            pointer-events: none;
+
+                            &:hover {
+                                background: #ccc;
+                                color: #666;
+                            }
+                        }
+                    }
+                }
+
+                .unavailable-overlay {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(0, 0, 0, 0.4);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 10;
+
+                    .unavailable-badge {
+                        background: rgba(255, 255, 255, 0.95);
+                        color: #333;
+                        padding: 12px 24px;
+                        font-size: 18px;
+                        font-weight: 600;
+                        border-radius: 4px;
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+                        text-transform: uppercase;
+                        letter-spacing: 1px;
+                        border: 2px solid $theme-primary-color;
+
+                        @media(max-width:575px) {
+                            font-size: 14px;
+                            padding: 8px 16px;
+                        }
+                    }
+                }
+            }
+
+            .wpo-product-text {
+                h3 a {
+                    color: #999;
+                }
+
+                ul li {
+                    color: #999;
+                }
+            }
+
+            &:hover {
+                .wpo-product-img {
+                    img {
+                        transform: scale(1);
+                    }
+                }
+            }
+        }
     }
 }

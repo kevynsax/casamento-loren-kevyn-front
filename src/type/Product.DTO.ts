@@ -4,4 +4,5 @@ export interface ProductDto {
     nome: string;
     linkImagem: string;
     preco: number;
+    disponivel: boolean;
 }

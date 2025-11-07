@@ -32,6 +32,9 @@ export class Shop implements OnInit, OnDestroy {
   }
 
   protected openPaymentModal(product: ProductDto): void {
+    if (!product.disponivel) {
+      return;
+    }
     this.selectedProduct.set(product);
     this.isModalOpen.set(true);
     document.body.style.overflow = 'hidden';
@@ -44,6 +47,11 @@ export class Shop implements OnInit, OnDestroy {
       this.selectedProduct.set(null);
     }, 300);
   }
+
+  protected onPaymentSuccess(): void {
+    this.productService.refreshProducts();
+  }
+
   protected formatPrice(price: number): string {
     return `$${price.toFixed(2)}`;
   }

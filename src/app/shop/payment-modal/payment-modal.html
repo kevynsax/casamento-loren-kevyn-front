@@ -8,7 +8,7 @@
                 </svg>
             </button>
 
-            @if (!paymentSuccess()) {
+            @if (!showPaymentSuccess()) {
                 <div class="modal-header">
                     <h2>Presentear com</h2>
                     <div class="product-info">
@@ -160,7 +160,7 @@
                                         id="cardName"
                                         [(ngModel)]="cardName"
                                         name="cardName"
-                                        placeholder="NOME COMPLETO"
+                                        placeholder="NOME COMO NO CARTÃO"
                                         style="text-transform: uppercase;">
                                 </div>
 

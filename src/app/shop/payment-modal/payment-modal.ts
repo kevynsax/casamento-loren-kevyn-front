@@ -20,11 +20,12 @@ export class PaymentModal implements OnDestroy {
     @Input() product: ProductDto | null = null;
     @Input() isOpen = false;
     @Output() close = new EventEmitter<void>();
+    @Output() paymentSuccess = new EventEmitter<void>();
 
     protected currentStep = signal<'info' | 'payment'>('info');
     protected selectedPaymentMethod = signal<PaymentMethod>('pix');
     protected isProcessing = signal(false);
-    protected paymentSuccess = signal(false);
+    protected showPaymentSuccess = signal(false);
 
     // Guest Info
     protected guestName = '';
@@ -95,7 +96,11 @@ export class PaymentModal implements OnDestroy {
                         return;
 
                     this.stopPolling();
-                    this.paymentSuccess.set(true);
+                    this.showPaymentSuccess.set(true);
+                    this.paymentSuccess.emit();
+                    setTimeout(() => {
+                        this.closeModal();
+                    }, 3000);
                 },
                 error: (err: any) => {
                     console.error('Erro ao verificar status da compra:', err);
@@ -150,17 +155,41 @@ export class PaymentModal implements OnDestroy {
     }
 
     protected processPayment(): void {
+        if (!this.intencaoCompraId) {
+            alert('Erro: Intenção de compra não encontrada.');
+            return;
+        }
+
+        if (!this.isFormValid()) {
+            alert('Por favor, preencha todos os campos do cartão corretamente.');
+            return;
+        }
+
         this.isProcessing.set(true);
 
-        // Simulate payment processing
-        setTimeout(() => {
-            this.isProcessing.set(false);
-            this.paymentSuccess.set(true);
+        const numeroCartao = this.cardNumber.replace(/\s/g, '');
+        const cpfPagador = this.cardCpf.replace(/\D/g, '');
 
-            setTimeout(() => {
-                this.closeModal();
-            }, 2000);
-        }, 2000);
+        this.compraService.pagarComCartao({
+            idIntencaoCompra: this.intencaoCompraId,
+            cpfPagador: cpfPagador,
+            nomePagador: this.cardName,
+            ccvCartao: this.cardCvv,
+            numeroCartao: numeroCartao,
+            dataExpiracaoCartao: this.cardExpiry
+        }).subscribe({
+            next: () => {
+                this.isProcessing.set(false);
+                this.stopPolling();
+                this.showPaymentSuccess.set(true);
+                this.paymentSuccess.emit();
+            },
+            error: (err: any) => {
+                console.error('Erro ao processar pagamento:', err);
+                this.isProcessing.set(false);
+                alert('Erro ao processar pagamento. Por favor, verifique os dados do cartão e tente novamente.');
+            }
+        });
     }
 
     protected formatCardNumber(event: Event): void {
@@ -218,7 +247,7 @@ export class PaymentModal implements OnDestroy {
         this.cardExpiry = '';
         this.cardCvv = '';
         this.cardCpf = '';
-        this.paymentSuccess.set(false);
+        this.showPaymentSuccess.set(false);
         this.pixCopied.set(false);
         this.intencaoCompraId = null;
         this.pixKey.set('');
