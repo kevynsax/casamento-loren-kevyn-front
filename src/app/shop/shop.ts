@@ -7,6 +7,7 @@ import { ProductDto } from '../../type/Product.DTO';
 
 @Component({
   selector: 'app-shop',
+  standalone: true,
   imports: [CommonModule, PaymentModal],
   templateUrl: './shop.html',
   styleUrl: './shop.scss'
