@@ -7,20 +7,19 @@
         </div>
     </div>
     <div class="row">
-        @for (product of products; track product.id) {
+        @for (product of products(); track product.id) {
             <div class="col col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
-                <div class="wpo-product-item wow fadeInUp" [attr.data-wow-duration]="product.animationDuration">
+                <div class="wpo-product-item wow fadeInUp">
                     <div class="wpo-product-img">
-                        <img [src]="product.image" [alt]="product.name">
+                        <img [src]="product.linkImagem" [alt]="product.nome">
                         <ul>
                             <li><a (click)="openPaymentModal(product)" style="cursor: pointer;">Presentear</a></li>
                         </ul>
                     </div>
                     <div class="wpo-product-text">
-                        <h3><a style="cursor: pointer;">{{ product.name }}</a></h3>
+                        <h3><a style="cursor: pointer;">{{ product.nome }}</a></h3>
                         <ul>
-                            <li>{{ formatPrice(product.originalPrice) }}</li>
-                            <li>{{ formatPrice(product.salePrice) }}</li>
+                            <li>{{ formatPrice(product.preco) }}</li>
                         </ul>
                     </div>
                 </div>

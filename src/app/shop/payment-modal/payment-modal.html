@@ -12,10 +12,10 @@
                 <div class="modal-header">
                     <h2>Presentear com</h2>
                     <div class="product-info">
-                        <img [src]="product.image" [alt]="product.name">
+                        <img [src]="product.linkImagem" [alt]="product.nome">
                         <div class="product-details">
-                            <h3>{{ product.name }}</h3>
-                            <p class="product-price">R$ {{ product.salePrice.toFixed(2) }}</p>
+                            <h3>{{ product.nome }}</h3>
+                            <p class="product-price">R$ {{ product.preco.toFixed(2) }}</p>
                         </div>
                     </div>
                 </div>
@@ -219,7 +219,7 @@
                                 <span class="spinner"></span>
                                 Processando...
                             } @else {
-                                Pagar R$ {{ product.salePrice.toFixed(2) }}
+                                Pagar R$ {{ product.preco.toFixed(2) }}
                             }
                         </button>
                     }

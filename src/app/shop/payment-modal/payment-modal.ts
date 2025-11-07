@@ -1,15 +1,7 @@
 import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-interface Product {
-  id: number;
-  name: string;
-  image: string;
-  originalPrice: number;
-  salePrice: number;
-  animationDuration: string;
-}
+import { ProductDto } from '../../../type/Product.DTO';
 
 type PaymentMethod = 'pix' | 'credit-card';
 
@@ -21,7 +13,7 @@ type PaymentMethod = 'pix' | 'credit-card';
   styleUrl: './payment-modal.scss'
 })
 export class PaymentModal {
-  @Input() product: Product | null = null;
+  @Input() product: ProductDto | null = null;
   @Input() isOpen = false;
   @Output() close = new EventEmitter<void>();
 
