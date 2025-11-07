@@ -98,9 +98,6 @@ export class PaymentModal implements OnDestroy {
                     this.stopPolling();
                     this.showPaymentSuccess.set(true);
                     this.paymentSuccess.emit();
-                    setTimeout(() => {
-                        this.closeModal();
-                    }, 3000);
                 },
                 error: (err: any) => {
                     console.error('Erro ao verificar status da compra:', err);
