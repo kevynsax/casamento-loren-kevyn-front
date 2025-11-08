@@ -1,13 +1,9 @@
+import { ConvidadoDTO } from './Convidado.DTO';
+
 export interface ConviteDTO{
   id: number;
-  nomeConvite: String;
+  nomeConvite: string;
   respondido: boolean;
-  convidados: Convidado[];
+  convidados: ConvidadoDTO[];
 }
 
-export interface Convidado{
-    id: number;
-    nome: String;
-    statusPresenca: String;
-    selecionado: boolean;
-}

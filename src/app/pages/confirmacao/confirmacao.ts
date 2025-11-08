@@ -3,10 +3,11 @@ import { Checkbox } from '../../utils/checkbox/checkbox';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { Convidado, ConviteDTO } from '../../../type/convite.DTO';
+import { ConviteDTO } from '../../../type/convite.DTO';
 import { map, Observable } from 'rxjs';
 import { ConviteService } from '../../../service/convite.service';
 import { Footer } from '../../footer/footer';
+import { ConvidadoDTO } from '../../../type/Convidado.DTO';
 
 @Component({
     selector: 'app-confirmacao',
@@ -16,7 +17,7 @@ import { Footer } from '../../footer/footer';
 })
 export class Confirmacao implements OnInit {
 
-    protected convidados = signal<Convidado[]>([]);
+    protected convidados = signal<ConvidadoDTO[]>([]);
     protected convite!: Observable<ConviteDTO | null>;
 
     constructor(

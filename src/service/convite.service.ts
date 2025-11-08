@@ -1,4 +1,4 @@
-import { BehaviorSubject, catchError, throwError } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { ConviteDTO } from "../type/convite.DTO";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
@@ -14,6 +14,10 @@ export class ConviteService {
     private apiUrl = `${environment.apiBaseUrl}/convite`;
 
     constructor(private http: HttpClient) { }
+
+    public listarConvites(): Observable<ConviteDTO[]> {
+        return this.http.get<ConviteDTO[]>(this.apiUrl);
+    }
 
     public carregarConvite = (id: number) => {
         this.http.get<ConviteDTO>(`${this.apiUrl}/${id}`)
