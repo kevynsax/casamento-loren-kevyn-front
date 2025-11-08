@@ -21,8 +21,8 @@ FROM nginx:alpine
 # Copy custom nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Copy built application from build stage
-COPY --from=build /app/dist/casamento-loren-kevyn-front /usr/share/nginx/html
+# Copy built application from build stage (Angular outputs to browser subdirectory)
+COPY --from=build /app/dist/casamento-loren-kevyn-front/browser /usr/share/nginx/html
 
 # Expose port 80
 EXPOSE 80
