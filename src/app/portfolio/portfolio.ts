@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './portfolio.scss'
 })
 export class Portfolio {
-  protected images = Array.from({ length: 5 }, (_, i) => ({
+  protected images = Array.from({ length: 7 }, (_, i) => ({
     id: i + 1,
     src: `assets/images/portfolio/${i + 1}.jpg`,
     alt: `Foto ${i + 1}`
