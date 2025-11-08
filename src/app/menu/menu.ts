@@ -19,7 +19,8 @@ export class Menu implements OnInit {
   protected menuItems: MenuItem[] = [
     { label: 'Home', sectionId: 'home' },
     { label: 'História', sectionId: 'story' },
-    { label: 'Album', sectionId: 'gallery' }
+    { label: 'Album', sectionId: 'gallery' },
+    { label: 'Presentes', sectionId: 'shop' }
   ];
 
   ngOnInit(): void {
