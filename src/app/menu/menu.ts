@@ -15,6 +15,7 @@ interface MenuItem {
 export class Menu implements OnInit {
   protected isSticky = signal(false);
   protected activeSection = signal('home');
+  protected isMenuOpen = signal(false);
 
   protected menuItems: MenuItem[] = [
     { label: 'Home', sectionId: 'home' },
@@ -32,6 +33,7 @@ export class Menu implements OnInit {
     const offset = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
     this.isSticky.set(offset > 100);
     this.updateActiveSection();
+    this.isMenuOpen.set(false); // Close mobile menu on scroll
   }
 
   private updateActiveSection(): void {
@@ -51,6 +53,7 @@ export class Menu implements OnInit {
   }
 
   protected scrollToSection(sectionId: string): void {
+    this.isMenuOpen.set(false); // Close menu on mobile after selecting
     const element = document.getElementById(sectionId);
     if (element) {
       const offset = 80; // menu height offset
@@ -66,5 +69,9 @@ export class Menu implements OnInit {
 
   protected isActive(sectionId: string): boolean {
     return this.activeSection() === sectionId;
+  }
+
+  protected toggleMenu(): void {
+    this.isMenuOpen.set(!this.isMenuOpen());
   }
 }
