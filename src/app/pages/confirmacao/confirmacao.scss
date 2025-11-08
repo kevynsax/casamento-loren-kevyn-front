@@ -108,6 +108,22 @@
 
                 }
             }
+
+            .success-message {
+                text-align: center;
+                padding: 40px 20px;
+
+                h2 {
+                    color: $theme-primary-color;
+                    font-size: 28px;
+                    margin-bottom: 20px;
+                }
+
+                p {
+                    font-size: 18px;
+                    color: #666;
+                }
+            }
         }
     }
 

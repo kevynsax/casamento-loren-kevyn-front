@@ -3,6 +3,7 @@ import { ConviteDTO } from "../type/convite.DTO";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "../environments/environment";
+import { tap } from "rxjs/operators";
 
 @Injectable({
     providedIn: 'root'
@@ -28,11 +29,9 @@ export class ConviteService {
     }
 
     public confirmarPresenca = (idConvite: number, idConvidadoPresenca: number[]) => {
-        this.http.put<ConviteDTO>(`${this.apiUrl}`, {idConvite, idConvidadoPresenca})
-            .subscribe({
-                next: (convite) => this._conviteSelecionado.next(convite),
-                error: (err) => console.error('Erro ao confirmar presença: ', err)
-            });
+        return this.http.put<ConviteDTO>(`${this.apiUrl}`, {idConvite, idConvidadoPresenca})
+            .pipe(
+                tap(convite => this._conviteSelecionado.next(convite))
+            );
     }
 }
-

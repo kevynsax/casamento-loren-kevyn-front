@@ -2,7 +2,7 @@ import { Component, OnInit, signal } from '@angular/core';
 import { Checkbox } from '../../utils/checkbox/checkbox';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ConviteDTO } from '../../../type/convite.DTO';
 import { map, Observable } from 'rxjs';
 import { ConviteService } from '../../../service/convite.service';
@@ -19,10 +19,12 @@ export class Confirmacao implements OnInit {
 
     protected convidados = signal<ConvidadoDTO[]>([]);
     protected convite!: Observable<ConviteDTO | null>;
+    protected success = signal(false);
 
     constructor(
         private readonly conviteService: ConviteService,
-        private readonly route: ActivatedRoute
+        private readonly route: ActivatedRoute,
+        private readonly router: Router
     ) {
     }
 
@@ -46,7 +48,16 @@ export class Confirmacao implements OnInit {
         const convidadoIds = this.convidados().filter(convidado => convidado.selecionado)
             .map(convidado => convidado.id);
 
-        this.conviteService.confirmarPresenca(id, convidadoIds);
-
+        this.conviteService.confirmarPresenca(id, convidadoIds).subscribe({
+            next: () => {
+                this.success.set(true);
+                setTimeout(() => {
+                    this.router.navigate(['/']);
+                }, 5000);
+            },
+            error: (err: any) => {
+                console.error('Erro ao confirmar presença:', err);
+            }
+        });
     }
 }

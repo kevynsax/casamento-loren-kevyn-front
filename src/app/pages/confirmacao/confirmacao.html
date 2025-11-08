@@ -21,29 +21,36 @@
                 <div class="wpo-contact-section-wrapper">
                     <div class="wpo-contact-section-inner">
                         <div class="wpo-contact-form-area">
-                            <div class="wpo-section-title">
-                                <h2>Comparecerá</h2>
-                                <h5>Olá {{ (convite | async)?.nomeConvite }} pode marcar quem irá no casamento</h5>
-                            </div>
-                            <form method="post" class="contact-validation-active" id="contact-form-main">
-                                @for (convidado of convidados(); track convidado.id) {
-                                    <div>
-                                        <app-checkbox
-                                            [(ngModel)]="convidado.selecionado" name="confirmacao"
-                                            label={{convidado.nome}} required></app-checkbox>
-
-                                    </div>
-                                }
-                                <div class="submit-area">
-                                    <button
-                                        type="button" (click)="confirmarPresenca()"
-                                        class="theme-btn">Confirmar
-                                    </button>
-                                    <div id="c-loader">
-                                        <i class="ti-reload"></i>
-                                    </div>
+                            @if (success()) {
+                                <div class="success-message">
+                                    <h2>Confirmação Enviada com Sucesso!</h2>
+                                    <p>Obrigado por confirmar sua presença. Você será redirecionado para a página inicial em breve.</p>
                                 </div>
-                            </form>
+                            } @else {
+                                <div class="wpo-section-title">
+                                    <h2>Comparecerá</h2>
+                                    <h5>Olá {{ (convite | async)?.nomeConvite }} pode marcar quem irá no casamento</h5>
+                                </div>
+                                <form method="post" class="contact-validation-active" id="contact-form-main">
+                                    @for (convidado of convidados(); track convidado.id) {
+                                        <div>
+                                            <app-checkbox
+                                                [(ngModel)]="convidado.selecionado" name="confirmacao"
+                                                label={{convidado.nome}} required></app-checkbox>
+
+                                        </div>
+                                    }
+                                    <div class="submit-area">
+                                        <button
+                                            type="button" (click)="confirmarPresenca()"
+                                            class="theme-btn">Confirmar
+                                        </button>
+                                        <div id="c-loader">
+                                            <i class="ti-reload"></i>
+                                        </div>
+                                    </div>
+                                </form>
+                            }
                         </div>
                     </div>
                 </div>
