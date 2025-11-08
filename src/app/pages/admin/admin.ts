@@ -90,25 +90,34 @@ export class Admin implements OnInit {
   protected exportToCSV(): void {
     const convites = this.convites();
 
+    // UTF-8 BOM for better Excel/Numbers compatibility
+    const BOM = '\uFEFF';
+
     // CSV header
-    let csv = 'ID Convite,Nome Convite,Respondido,ID Convidado,Nome Convidado,Status Presença,Criança,Link Convite\n';
+    const csvLines: string[] = [];
+    csvLines.push('ID Convite;Nome Convite;Respondido;ID Convidado;Nome Convidado;Status Presenca;Crianca;Link Convite');
 
     // CSV data
     convites.forEach(convite => {
       const baseUrl = `${window.location.origin}/convite/${convite.id}`;
+      const respondido = convite.respondido ? 'Sim' : 'Nao';
 
       if (convite.convidados.length === 0) {
         // If no guests, add one row for the invite
-        csv += `${convite.id},"${convite.nomeConvite}",${convite.respondido ? 'Sim' : 'Não'},,,,"${baseUrl}"\n`;
+        csvLines.push(`${convite.id};"${convite.nomeConvite}";${respondido};;;;"${baseUrl}"`);
       } else {
         // Add a row for each guest
         convite.convidados.forEach(convidado => {
           const statusPresenca = this.translateStatus(convidado.statusPresenca);
-          const crianca = convidado.crianca ? 'Sim' : 'Não';
-          csv += `${convite.id},"${convite.nomeConvite}",${convite.respondido ? 'Sim' : 'Não'},${convidado.id},"${convidado.nome}","${statusPresenca}",${crianca},"${baseUrl}"\n`;
+          const crianca = convidado.crianca ? 'Sim' : 'Nao';
+          const nomeConvidado = convidado.nome.replace(/"/g, '""'); // Escape quotes
+          csvLines.push(`${convite.id};"${convite.nomeConvite}";${respondido};${convidado.id};"${nomeConvidado}";"${statusPresenca}";${crianca};"${baseUrl}"`);
         });
       }
     });
+
+    // Join lines with proper line breaks
+    const csv = BOM + csvLines.join('\r\n');
 
     // Create blob and download
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -122,6 +131,9 @@ export class Admin implements OnInit {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+
+    // Cleanup
+    URL.revokeObjectURL(url);
   }
 
   private translateStatus(status: string): string {
