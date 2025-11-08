@@ -6,9 +6,9 @@
             <h2>Você pode nos presentear</h2>
         </div>
     </div>
-    <div class="row">
+    <div class="products-grid">
         @for (product of products(); track product.id) {
-            <div class="col col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+            <div class="product-wrapper">
                 <div class="wpo-product-item wow fadeInUp" [class.unavailable]="!product.disponivel">
                     <div class="wpo-product-img">
                         <img [src]="product.linkImagem" [alt]="product.nome">
