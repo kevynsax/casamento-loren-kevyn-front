@@ -49,15 +49,23 @@ export class Admin implements OnInit {
   }
 
   protected getConfirmedCount(convite: ConviteDTO): number {
-    return convite.convidados.filter(c => c.statusPresenca === 'CONFIRMADO').length;
+    return convite.convidados.filter(c => c.statusPresenca === 'COMPARECERA').length;
   }
 
   protected getDeclinedCount(convite: ConviteDTO): number {
-    return convite.convidados.filter(c => c.statusPresenca === 'NEGADO').length;
+    if (convite.respondido) {
+      return convite.convidados.filter(c => c.statusPresenca !== 'COMPARECERA').length;
+    } else {
+      return convite.convidados.filter(c => c.statusPresenca === 'NEGADO').length;
+    }
   }
 
   protected getNoResponseCount(convite: ConviteDTO): number {
-    return convite.convidados.filter(c => c.statusPresenca === 'SEMRESPOSTA').length;
+    if (convite.respondido) {
+      return 0;
+    } else {
+      return convite.convidados.filter(c => c.statusPresenca === 'SEMRESPOSTA').length;
+    }
   }
 
   protected getTotalStats() {
@@ -68,12 +76,12 @@ export class Admin implements OnInit {
     const totalAdults = allGuests.filter(g => !g.crianca).length;
     const totalChildren = allGuests.filter(g => g.crianca).length;
 
-    const confirmed = allGuests.filter(g => g.statusPresenca === 'CONFIRMADO').length;
-    const confirmedAdults = allGuests.filter(g => g.statusPresenca === 'CONFIRMADO' && !g.crianca).length;
-    const confirmedChildren = allGuests.filter(g => g.statusPresenca === 'CONFIRMADO' && g.crianca).length;
+    const confirmed = allGuests.filter(g => g.statusPresenca === 'COMPARECERA').length;
+    const confirmedAdults = allGuests.filter(g => g.statusPresenca === 'COMPARECERA' && !g.crianca).length;
+    const confirmedChildren = allGuests.filter(g => g.statusPresenca === 'COMPARECERA' && g.crianca).length;
 
-    const declined = allGuests.filter(g => g.statusPresenca === 'NEGADO').length;
-    const noResponse = allGuests.filter(g => g.statusPresenca === 'SEMRESPOSTA').length;
+    const declined = convites.reduce((sum, c) => sum + this.getDeclinedCount(c), 0);
+    const noResponse = convites.reduce((sum, c) => sum + this.getNoResponseCount(c), 0);
 
     return {
       total,
@@ -138,7 +146,7 @@ export class Admin implements OnInit {
 
   private translateStatus(status: string): string {
     const statusMap: { [key: string]: string } = {
-      'CONFIRMADO': 'Confirmado',
+      'COMPARECERA': 'Confirmado',
       'NEGADO': 'Negado',
       'SEMRESPOSTA': 'Sem Resposta'
     };
@@ -155,4 +163,3 @@ export class Admin implements OnInit {
     return `${year}${month}${day}_${hours}${minutes}`;
   }
 }
-
