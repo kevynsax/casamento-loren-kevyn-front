@@ -24,5 +24,8 @@ export class CompraService {
   pagarComCartao(pagamento: PagamentoCartaoDTO): Observable<any> {
     return this.http.post(`${this.apiUrl}/cartao`, pagamento);
   }
-}
 
+  listarCompras(): Observable<Compra[]> {
+    return this.http.get<Compra[]>(this.apiUrl);
+  }
+}

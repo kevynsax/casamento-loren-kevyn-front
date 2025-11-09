@@ -2,6 +2,8 @@ import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ConviteService } from '../../../service/convite.service';
 import { ConviteDTO } from '../../../type/convite.DTO';
+import { CompraService } from '../../../service/compra.service';
+import { Compra } from '../../../type/NovaIntencaoCompra.DTO';
 
 @Component({
   selector: 'app-admin',
@@ -12,13 +14,20 @@ import { ConviteDTO } from '../../../type/convite.DTO';
 })
 export class Admin implements OnInit {
   protected convites = signal<ConviteDTO[]>([]);
+  protected compras = signal<Compra[]>([]);
   protected loading = signal(true);
+  protected loadingCompras = signal(true);
   protected copiedId = signal<number | null>(null);
+  protected activeTab = signal<'rsvp' | 'purchases'>('rsvp');
 
-  constructor(private conviteService: ConviteService) {}
+  constructor(
+    private conviteService: ConviteService,
+    private compraService: CompraService
+  ) {}
 
   ngOnInit(): void {
     this.loadConvites();
+    this.loadCompras();
   }
 
   private loadConvites(): void {
@@ -32,6 +41,23 @@ export class Admin implements OnInit {
         this.loading.set(false);
       }
     });
+  }
+
+  private loadCompras(): void {
+    this.compraService.listarCompras().subscribe({
+      next: (compras) => {
+        this.compras.set(compras);
+        this.loadingCompras.set(false);
+      },
+      error: (err) => {
+        console.error('Erro ao carregar compras:', err);
+        this.loadingCompras.set(false);
+      }
+    });
+  }
+
+  protected setActiveTab(tab: 'rsvp' | 'purchases'): void {
+    this.activeTab.set(tab);
   }
 
   protected getInviteUrl(conviteId: number): string {
@@ -144,10 +170,47 @@ export class Admin implements OnInit {
     URL.revokeObjectURL(url);
   }
 
+  protected getPurchaseStats() {
+    const compras = this.compras();
+    const total = compras.length;
+    const totalValue = compras.reduce((sum, c) => sum + c.total, 0);
+    const finalized = compras.filter(c => c.statusPagamento === 'FINALIZADO').length;
+    const pending = compras.filter(c => c.statusPagamento === 'PENDENTE').length;
+    const pix = compras.filter(c => c.tipoPagamento === 'PIX').length;
+    const cartao = compras.filter(c => c.tipoPagamento === 'CARTAO').length;
+
+    return {
+      total,
+      totalValue,
+      finalized,
+      pending,
+      pix,
+      cartao
+    };
+  }
+
+  protected formatCurrency(value: number): string {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    }).format(value);
+  }
+
+  protected formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    }).format(date);
+  }
+
   private translateStatus(status: string): string {
     const statusMap: { [key: string]: string } = {
       'COMPARECERA': 'Confirmado',
-      'NEGADO': 'Negado',
+      'FALTARA': 'Faltará',
       'SEMRESPOSTA': 'Sem Resposta'
     };
     return statusMap[status] || status;

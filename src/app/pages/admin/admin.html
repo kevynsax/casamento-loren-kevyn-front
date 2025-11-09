@@ -1,23 +1,42 @@
 <div class="admin-container">
     <div class="admin-header">
-        <h1>Lista de Convidados - RSVP</h1>
-        <p class="subtitle">Gerenciamento de confirmações de presença</p>
-        <button class="export-btn" (click)="exportToCSV()">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                <polyline points="7 10 12 15 17 10"></polyline>
-                <line x1="12" y1="15" x2="12" y2="3"></line>
-            </svg>
-            Exportar CSV
+        <h1>Painel de Administração</h1>
+        <p class="subtitle">Gerenciamento de confirmações e presentes</p>
+    </div>
+
+    <div class="tabs">
+        <button
+            class="tab-btn"
+            [class.active]="activeTab() === 'rsvp'"
+            (click)="setActiveTab('rsvp')">
+            RSVP
+        </button>
+        <button
+            class="tab-btn"
+            [class.active]="activeTab() === 'purchases'"
+            (click)="setActiveTab('purchases')">
+            Presentes
         </button>
     </div>
 
-    @if (loading()) {
-        <div class="loading">
-            <p>Carregando convites...</p>
-        </div>
-    } @else {
-        <div class="stats-summary">
+    @if (activeTab() === 'rsvp') {
+        @if (loading()) {
+            <div class="loading">
+                <p>Carregando convites...</p>
+            </div>
+        } @else {
+            <div class="section-header">
+                <h2>Lista de Convidados</h2>
+                <button class="export-btn" (click)="exportToCSV()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Exportar CSV
+                </button>
+            </div>
+            <div class="stats-summary">
             <div class="stat-card">
                 <div class="stat-number">{{ getTotalStats().total }}</div>
                 <div class="stat-label">Total de Convidados</div>
@@ -36,7 +55,7 @@
             </div>
             <div class="stat-card declined">
                 <div class="stat-number">{{ getTotalStats().declined }}</div>
-                <div class="stat-label">Negados</div>
+                <div class="stat-label">Faltarão</div>
             </div>
             <div class="stat-card pending">
                 <div class="stat-number">{{ getTotalStats().noResponse }}</div>
@@ -116,5 +135,75 @@
                 </tbody>
             </table>
         </div>
+        }
+    }
+
+    @if (activeTab() === 'purchases') {
+        @if (loadingCompras()) {
+            <div class="loading">
+                <p>Carregando compras...</p>
+            </div>
+        } @else {
+            <div class="section-header">
+                <h2>Lista de Presentes</h2>
+            </div>
+            <div class="stats-summary">
+                <div class="stat-card">
+                    <div class="stat-number">{{ getPurchaseStats().total }}</div>
+                    <div class="stat-label">Total de Compras</div>
+                </div>
+                <div class="stat-card confirmed">
+                    <div class="stat-number">{{ formatCurrency(getPurchaseStats().totalValue) }}</div>
+                    <div class="stat-label">Valor Total</div>
+                </div>
+                <div class="stat-card confirmed">
+                    <div class="stat-number">{{ getPurchaseStats().finalized }}</div>
+                    <div class="stat-label">Finalizadas</div>
+                </div>
+                <div class="stat-card pending">
+                    <div class="stat-number">{{ getPurchaseStats().pending }}</div>
+                    <div class="stat-label">Pendentes</div>
+                </div>
+            </div>
+
+            <div class="purchases-grid">
+                @for (compra of compras(); track compra.id) {
+                    <div class="purchase-card" [class.finalized]="compra.statusPagamento === 'FINALIZADO'">
+                        <div class="purchase-header">
+                            <h3>{{ compra.nome }}</h3>
+                            <span class="status-badge" [class.finalized]="compra.statusPagamento === 'FINALIZADO'">
+                                {{ compra.statusPagamento === 'FINALIZADO' ? 'Finalizado' : 'Pendente' }}
+                            </span>
+                        </div>
+                        <div class="purchase-body">
+                            <div class="purchase-info">
+                                <span class="label">Valor:</span>
+                                <span class="value">{{ formatCurrency(compra.total) }}</span>
+                            </div>
+                            <div class="purchase-info">
+                                <span class="label">Pagamento:</span>
+                                <span class="value payment-type">{{ compra.tipoPagamento }}</span>
+                            </div>
+                            <div class="purchase-info">
+                                <span class="label">Data da Compra:</span>
+                                <span class="value">{{ formatDate(compra.dataCompra) }}</span>
+                            </div>
+                            @if (compra.dataPagamento) {
+                                <div class="purchase-info">
+                                    <span class="label">Data do Pagamento:</span>
+                                    <span class="value">{{ formatDate(compra.dataPagamento) }}</span>
+                                </div>
+                            }
+                            @if (compra.mensagem) {
+                                <div class="purchase-message">
+                                    <span class="label">Mensagem:</span>
+                                    <p>"{{ compra.mensagem }}"</p>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        }
     }
 </div>
