@@ -56,7 +56,7 @@ export class Admin implements OnInit {
     if (convite.respondido) {
       return convite.convidados.filter(c => c.statusPresenca !== 'COMPARECERA').length;
     } else {
-      return convite.convidados.filter(c => c.statusPresenca === 'NEGADO').length;
+      return convite.convidados.filter(c => c.statusPresenca === 'FALTARA').length;
     }
   }
 
