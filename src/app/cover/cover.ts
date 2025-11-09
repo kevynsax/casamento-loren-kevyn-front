@@ -2,11 +2,12 @@ import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { DATA_CASAMENTO } from '../../service/constants';
 import { interval, Subscription } from 'rxjs';
+import { ScrollAnimationDirective } from '../utils/scroll-animation.directive';
 
 @Component({
     selector: 'app-cover',
     standalone: true,
-    imports: [CommonModule, NgOptimizedImage],
+    imports: [CommonModule, NgOptimizedImage, ScrollAnimationDirective],
     templateUrl: './cover.html',
     styleUrl: './cover.scss'
 })

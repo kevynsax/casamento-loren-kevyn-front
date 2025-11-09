@@ -9,7 +9,7 @@
     <div class="products-grid">
         @for (product of products(); track product.id) {
             <div class="product-wrapper">
-                <div class="wpo-product-item wow fadeInUp" [class.unavailable]="!product.disponivel">
+                <div class="wpo-product-item" appScrollAnimation [class.unavailable]="!product.disponivel">
                     <div class="wpo-product-img">
                         <img [src]="product.linkImagem" [alt]="product.nome">
                         @if (!product.disponivel) {

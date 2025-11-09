@@ -4,11 +4,12 @@ import { PaymentModal } from './payment-modal/payment-modal';
 import { ProductService } from '../../service/product.service';
 import { Subscription } from 'rxjs';
 import { ProductDto } from '../../type/Product.DTO';
+import { ScrollAnimationDirective } from '../utils/scroll-animation.directive';
 
 @Component({
   selector: 'app-shop',
   standalone: true,
-  imports: [CommonModule, PaymentModal],
+  imports: [CommonModule, PaymentModal, ScrollAnimationDirective],
   templateUrl: './shop.html',
   styleUrl: './shop.scss'
 })
