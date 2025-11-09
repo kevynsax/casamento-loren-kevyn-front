@@ -24,7 +24,7 @@
                         @for (mensagem of mensagens(); track mensagem.id) {
                             <div class="post-it-note" [style.--rotation]="mensagem.rotation">
                                 <div class="post-it-content">
-                                    <p class="message-text">{{ mensagem.texto }}</p>
+                                    <div class="message-text" [innerHTML]="mensagem.texto"></div>
                                     <div class="message-footer">
                                         <span class="message-author">- {{ mensagem.nome }}</span>
                                         <span class="message-date">{{ formatDate(mensagem.dataEnvio) }}</span>
@@ -70,7 +70,6 @@
                                 [(ngModel)]="texto"
                                 name="texto"
                                 [disabled]="submitting()"
-                                maxlength="500"
                                 required></textarea>
                         </div>
                         @if (errorMessage()) {

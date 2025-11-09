@@ -40,6 +40,7 @@ export class Messages implements OnInit, OnDestroy {
           new Date(a.dataEnvio).getTime() - new Date(b.dataEnvio).getTime()
         ).map((msg, index) => ({
           ...msg,
+          texto: msg.texto.replace(/\n/g, '<br>'),
           rotation: this.getFixedRotation(index)
         }));
         this.mensagens.set(sorted);
