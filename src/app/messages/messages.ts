@@ -35,10 +35,13 @@ export class Messages implements OnInit, OnDestroy {
   private loadMensagens(): void {
     this.mensagemService.listarMensagens().subscribe({
       next: (mensagens) => {
-        // Sort by date, newest first
+        // Sort by date, oldest first and add fixed rotation based on index
         const sorted = [...mensagens].sort((a, b) =>
-          new Date(b.dataEnvio).getTime() - new Date(a.dataEnvio).getTime()
-        );
+          new Date(a.dataEnvio).getTime() - new Date(b.dataEnvio).getTime()
+        ).map((msg, index) => ({
+          ...msg,
+          rotation: this.getFixedRotation(index)
+        }));
         this.mensagens.set(sorted);
         this.loading.set(false);
       },
@@ -65,12 +68,24 @@ export class Messages implements OnInit, OnDestroy {
   protected submitMessage(): void {
     this.errorMessage.set(null);
 
-    if (!this.nome().trim()) {
-      this.errorMessage.set('Por favor, digite seu nome.');
+    const nomeValue = this.nome().trim();
+    const textoValue = this.texto().trim();
+
+    // Validate name is not empty
+    if (!nomeValue) {
+      this.errorMessage.set('Por favor, digite seu nome completo.');
       return;
     }
 
-    if (!this.texto().trim()) {
+    // Validate name has at least 2 words (first and last name)
+    const nameParts = nomeValue.split(/\s+/).filter(part => part.length > 0);
+    if (nameParts.length < 2) {
+      this.errorMessage.set('Por favor, digite seu nome completo (nome e sobrenome).');
+      return;
+    }
+
+    // Validate message is not empty
+    if (!textoValue) {
       this.errorMessage.set('Por favor, escreva sua mensagem.');
       return;
     }
@@ -78,8 +93,8 @@ export class Messages implements OnInit, OnDestroy {
     this.submitting.set(true);
 
     const novaMensagem: NovaMensagemDTO = {
-      nome: this.nome().trim(),
-      texto: this.texto().trim()
+      nome: nomeValue,
+      texto: textoValue
     };
 
     this.mensagemService.criarMensagem(novaMensagem).subscribe({
@@ -102,9 +117,9 @@ export class Messages implements OnInit, OnDestroy {
     });
   }
 
-  protected getRandomRotation(): string {
-    const rotations = ['-2deg', '-1deg', '0deg', '1deg', '2deg', '-3deg', '3deg'];
-    return rotations[Math.floor(Math.random() * rotations.length)];
+  protected getFixedRotation(index: number): string {
+    const rotations = ['-2deg', '-1deg', '0deg', '1deg', '2deg', '-3deg', '3deg', '-1.5deg', '1.5deg'];
+    return rotations[index % rotations.length];
   }
 
   protected formatDate(dateString: string): string {

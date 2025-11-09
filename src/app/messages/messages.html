@@ -22,7 +22,7 @@
                 } @else {
                     <div class="messages-wall">
                         @for (mensagem of mensagens(); track mensagem.id) {
-                            <div class="post-it-note" [style.--rotation]="getRandomRotation()">
+                            <div class="post-it-note" [style.--rotation]="mensagem.rotation">
                                 <div class="post-it-content">
                                     <p class="message-text">{{ mensagem.texto }}</p>
                                     <div class="message-footer">
@@ -56,7 +56,7 @@
                             <input
                                 type="text"
                                 class="form-control"
-                                placeholder="Seu nome"
+                                placeholder="Seu nome completo *"
                                 [(ngModel)]="nome"
                                 name="nome"
                                 [disabled]="submitting()"
@@ -66,7 +66,7 @@
                             <textarea
                                 class="form-control"
                                 rows="3"
-                                placeholder="Sua mensagem..."
+                                placeholder="Sua mensagem... *"
                                 [(ngModel)]="texto"
                                 name="texto"
                                 [disabled]="submitting()"

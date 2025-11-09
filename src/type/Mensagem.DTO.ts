@@ -3,6 +3,7 @@ export interface MensagemDTO {
   nome: string;
   texto: string;
   dataEnvio: string;
+  rotation?: string; // Added for UI display
 }
 
 export interface NovaMensagemDTO {
