@@ -69,7 +69,8 @@
             </div>
         </div>
 
-        <div class="table-container">
+        <!-- Desktop Table -->
+        <div class="table-container desktop-only">
             <table class="invites-table">
                 <thead>
                     <tr>
@@ -140,6 +141,63 @@
                     }
                 </tbody>
             </table>
+        </div>
+
+        <!-- Mobile Cards -->
+        <div class="cards-container mobile-only">
+            @for (convite of convites(); track convite.id) {
+                <div class="invite-card" [class.responded]="convite.respondido">
+                    <div class="card-header">
+                        <h3>{{ convite.nomeConvite }}</h3>
+                        <div class="header-actions">
+                            <span class="status-badge" [class.responded]="convite.respondido">
+                                {{ convite.respondido ? 'Respondido' : 'Pendente' }}
+                            </span>
+                            <div
+                                class="copy-btn icon-only"
+                                (click)="copyUrl(convite.id)"
+                                [class.copied]="copiedId() === convite.id"
+                                [title]="copiedId() === convite.id ? 'Copiado!' : 'Copiar link do convite'"
+                            >
+                                @if (copiedId() === convite.id) {
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                } @else {
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                    </svg>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @if (convite.convidados.length > 0) {
+                            <div class="guests-list">
+                                <strong>Convidados:</strong>
+                                @for (convidado of convite.convidados; track convidado.id) {
+                                    <span class="guest-item" [class]="convidado.statusPresenca.toLowerCase()">
+                                        {{ convidado.nome }}
+                                        @if (convidado.crianca) {
+                                            <span class="child-badge">Criança</span>
+                                        }
+                                        <span class="status-icon">
+                                            @if (convidado.statusPresenca === 'COMPARECERA') {
+                                                ✓
+                                            } @else if (convidado.statusPresenca === 'FALTARA') {
+                                                ✗
+                                            } @else {
+                                                ?
+                                            }
+                                        </span>
+                                    </span>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
         </div>
         }
     }
