@@ -233,17 +233,6 @@
                 border-radius: 0 0 2px 0;
             }
 
-            // Pin effect at top
-            &:after {
-                content: '📌';
-                position: absolute;
-                top: -8px;
-                left: 50%;
-                transform: translateX(-50%);
-                font-size: 24px;
-                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-                z-index: 2;
-            }
 
             // Soft pastel yellow
             &:nth-child(5n+1) {
