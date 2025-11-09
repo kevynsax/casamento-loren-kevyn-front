@@ -49,6 +49,9 @@
                                             <i class="ti-reload"></i>
                                         </div>
                                     </div>
+                                    @if (errorMessage()) {
+                                        <div class="error-message">{{ errorMessage() }}</div>
+                                    }
                                 </form>
                             }
                         </div>
@@ -69,4 +72,17 @@
             referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
 </section>
+@if (showConfirm()) {
+    <div class="confirm-modal">
+        <div class="modal-overlay" (click)="onConfirmNo()"></div>
+        <div class="modal-content">
+            <h3>Confirmação</h3>
+            <p>Você não selecionou nenhum convidado. Deseja continuar sem confirmar presença?</p>
+            <div class="modal-buttons">
+                <button class="btn-no" (click)="onConfirmNo()">Não</button>
+                <button class="btn-yes" (click)="onConfirmYes()">Sim</button>
+            </div>
+        </div>
+    </div>
+}
 <app-footer></app-footer>

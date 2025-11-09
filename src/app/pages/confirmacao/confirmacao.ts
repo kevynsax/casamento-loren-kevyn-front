@@ -20,6 +20,10 @@ export class Confirmacao implements OnInit {
     protected convidados = signal<ConvidadoDTO[]>([]);
     protected convite!: Observable<ConviteDTO | null>;
     protected success = signal(false);
+    protected errorMessage = signal<string | null>(null);
+    protected showConfirm = signal(false);
+    protected pendingId = signal<number | null>(null);
+    protected pendingConvidadoIds = signal<number[]>([]);
 
     constructor(
         private readonly conviteService: ConviteService,
@@ -43,11 +47,23 @@ export class Confirmacao implements OnInit {
     }
 
     public confirmarPresenca() {
+        this.errorMessage.set(null); // Reset error message
         const id = Number(this.route.snapshot.paramMap.get('id'));
 
         const convidadoIds = this.convidados().filter(convidado => convidado.selecionado)
             .map(convidado => convidado.id);
 
+        if (convidadoIds.length === 0) {
+            this.pendingId.set(id);
+            this.pendingConvidadoIds.set(convidadoIds);
+            this.showConfirm.set(true);
+            return;
+        }
+
+        this.sendConfirmation(id, convidadoIds);
+    }
+
+    private sendConfirmation(id: number, convidadoIds: number[]) {
         this.conviteService.confirmarPresenca(id, convidadoIds).subscribe({
             next: () => {
                 this.success.set(true);
@@ -57,7 +73,17 @@ export class Confirmacao implements OnInit {
             },
             error: (err: any) => {
                 console.error('Erro ao confirmar presença:', err);
+                this.errorMessage.set(err.error || 'Erro ao confirmar presença.');
             }
         });
+    }
+
+    public onConfirmYes() {
+        this.showConfirm.set(false);
+        this.sendConfirmation(this.pendingId()!, this.pendingConvidadoIds());
+    }
+
+    public onConfirmNo() {
+        this.showConfirm.set(false);
     }
 }
