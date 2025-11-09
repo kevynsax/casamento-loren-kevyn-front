@@ -10,12 +10,14 @@
 
             @if (!showPaymentSuccess()) {
                 <div class="modal-header">
-                    <h2>Presentear com</h2>
-                    <div class="product-info">
-                        <img [src]="product.linkImagem" [alt]="product.nome">
-                        <div class="product-details">
-                            <h3>{{ product.nome }}</h3>
-                            <p class="product-price">R$ {{ product.preco.toFixed(2) }}</p>
+                    <div class="header-content">
+                        <h2>Presentear com</h2>
+                        <div class="product-info">
+                            <img [src]="product.linkImagem" [alt]="product.nome">
+                            <div class="product-details">
+                                <h3>{{ product.nome }}</h3>
+                                <p class="product-price">R$ {{ product.preco.toFixed(2) }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -25,7 +27,7 @@
                     @if (currentStep() === 'info') {
                         <div class="guest-info-form">
                             <div class="info-header">
-                                <h3>Queremos saber quem está nos presenteando! ❤️</h3>
+                                <h3>Queremos saber quem está<br>nos presenteando! ❤️</h3>
                                 <p>Por favor, nos conte quem você é e deixe uma mensagem especial.</p>
                             </div>
 

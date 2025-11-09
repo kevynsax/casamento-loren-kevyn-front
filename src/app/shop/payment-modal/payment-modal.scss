@@ -87,11 +87,27 @@
     flex-shrink: 0;
     justify-content: space-around;
 
+    .header-content {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+
+        @media (max-width: 767px) {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+    }
+
     h2 {
         font-size: 28px;
         color: $theme-primary-color;
         font-family: $heading-font;
-        margin: 0 0 35px 0;
+        margin: 0;
+
+        @media (min-width: 768px) {
+            margin: 0 0 35px 0;
+        }
     }
 
     .product-info {
