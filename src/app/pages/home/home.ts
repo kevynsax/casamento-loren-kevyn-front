@@ -5,6 +5,7 @@ import { Story } from '../../story/story';
 import { Footer } from '../../footer/footer';
 import { Portfolio } from '../../portfolio/portfolio';
 import { Shop } from '../../shop/shop';
+import { Messages } from '../../messages/messages';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +15,8 @@ import { Shop } from '../../shop/shop';
         Story,
         Footer,
         Portfolio,
-        Shop
+        Shop,
+        Messages
     ],
   templateUrl: './home.html',
   styleUrl: './home.scss'

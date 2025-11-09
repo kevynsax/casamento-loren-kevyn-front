@@ -1,9 +1,11 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ConviteService } from '../../../service/convite.service';
 import { ConviteDTO } from '../../../type/convite.DTO';
 import { CompraService } from '../../../service/compra.service';
 import { Compra } from '../../../type/NovaIntencaoCompra.DTO';
+import { MensagemService } from '../../../service/mensagem.service';
+import { MensagemDTO } from '../../../type/Mensagem.DTO';
 
 @Component({
   selector: 'app-admin',
@@ -12,22 +14,32 @@ import { Compra } from '../../../type/NovaIntencaoCompra.DTO';
   templateUrl: './admin.html',
   styleUrl: './admin.scss'
 })
-export class Admin implements OnInit {
+export class Admin implements OnInit, OnDestroy {
   protected convites = signal<ConviteDTO[]>([]);
   protected compras = signal<Compra[]>([]);
+  protected mensagens = signal<MensagemDTO[]>([]);
   protected loading = signal(true);
   protected loadingCompras = signal(true);
+  protected loadingMensagens = signal(true);
   protected copiedId = signal<number | null>(null);
-  protected activeTab = signal<'rsvp' | 'purchases'>('rsvp');
+  protected activeTab = signal<'rsvp' | 'purchases' | 'messages'>('rsvp');
+  private mensagensInterval?: any;
 
   constructor(
     private conviteService: ConviteService,
-    private compraService: CompraService
+    private compraService: CompraService,
+    private mensagemService: MensagemService
   ) {}
 
   ngOnInit(): void {
     this.loadConvites();
     this.loadCompras();
+    this.loadMensagens();
+    this.startMensagensPolling();
+  }
+
+  ngOnDestroy(): void {
+    this.stopMensagensPolling();
   }
 
   private loadConvites(): void {
@@ -56,7 +68,33 @@ export class Admin implements OnInit {
     });
   }
 
-  protected setActiveTab(tab: 'rsvp' | 'purchases'): void {
+  private loadMensagens(): void {
+    this.mensagemService.listarMensagens().subscribe({
+      next: (mensagens) => {
+        this.mensagens.set(mensagens);
+        this.loadingMensagens.set(false);
+      },
+      error: (err) => {
+        console.error('Erro ao carregar mensagens:', err);
+        this.loadingMensagens.set(false);
+      }
+    });
+  }
+
+  private startMensagensPolling(): void {
+    this.mensagensInterval = setInterval(() => {
+      this.loadMensagens();
+    }, 5000);
+  }
+
+  private stopMensagensPolling(): void {
+    if (this.mensagensInterval) {
+      clearInterval(this.mensagensInterval);
+      this.mensagensInterval = undefined;
+    }
+  }
+
+  protected setActiveTab(tab: 'rsvp' | 'purchases' | 'messages'): void {
     this.activeTab.set(tab);
   }
 
@@ -205,6 +243,11 @@ export class Admin implements OnInit {
       hour: '2-digit',
       minute: '2-digit'
     }).format(date);
+  }
+
+  protected getRandomRotation(): string {
+    const rotations = ['-2deg', '-1deg', '0deg', '1deg', '2deg', '-3deg', '3deg'];
+    return rotations[Math.floor(Math.random() * rotations.length)];
   }
 
   private translateStatus(status: string): string {

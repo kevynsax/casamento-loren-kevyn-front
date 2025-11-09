@@ -21,6 +21,7 @@ export class Menu implements OnInit {
     { label: 'Home', sectionId: 'home' },
     { label: 'História', sectionId: 'story' },
     { label: 'Album', sectionId: 'gallery' },
+    { label: 'Mensagens', sectionId: 'messages' },
     { label: 'Presentes', sectionId: 'shop' }
   ];
 

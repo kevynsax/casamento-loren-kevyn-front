@@ -1,0 +1,91 @@
+<section class="wpo-messages-section section-padding" id="messages">
+    <div class="container">
+        <div class="row">
+            <div class="col col-xs-12">
+                <div class="wpo-section-title">
+                    <h2>Mensagens de Felicidade</h2>
+                    <p>Votos de felicidade dos nossos convidados</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col col-xs-12">
+                @if (loading()) {
+                    <div class="loading-messages">
+                        <p>Carregando mensagens...</p>
+                    </div>
+                } @else if (mensagens().length === 0) {
+                    <div class="no-messages">
+                        <p>Seja o primeiro a deixar uma mensagem de felicidade! 💕</p>
+                    </div>
+                } @else {
+                    <div class="messages-wall">
+                        @for (mensagem of mensagens(); track mensagem.id) {
+                            <div class="post-it-note" [style.--rotation]="getRandomRotation()">
+                                <div class="post-it-content">
+                                    <p class="message-text">{{ mensagem.texto }}</p>
+                                    <div class="message-footer">
+                                        <span class="message-author">- {{ mensagem.nome }}</span>
+                                        <span class="message-date">{{ formatDate(mensagem.dataEnvio) }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3">
+                <div class="message-form">
+                    <h3 class="form-title">Deixe sua mensagem</h3>
+
+                    @if (showSuccess()) {
+                        <div class="success-alert">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            Mensagem enviada!
+                        </div>
+                    }
+
+                    <form (submit)="$event.preventDefault(); submitMessage()">
+                        <div class="form-group">
+                            <input
+                                type="text"
+                                class="form-control"
+                                placeholder="Seu nome"
+                                [(ngModel)]="nome"
+                                name="nome"
+                                [disabled]="submitting()"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <textarea
+                                class="form-control"
+                                rows="3"
+                                placeholder="Sua mensagem..."
+                                [(ngModel)]="texto"
+                                name="texto"
+                                [disabled]="submitting()"
+                                maxlength="500"
+                                required></textarea>
+                        </div>
+                        @if (errorMessage()) {
+                            <div class="error-alert">{{ errorMessage() }}</div>
+                        }
+                        <button
+                            type="submit"
+                            class="theme-btn"
+                            [disabled]="submitting()">
+                            {{ submitting() ? 'Enviando...' : 'Enviar' }}
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
