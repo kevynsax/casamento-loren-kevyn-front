@@ -264,7 +264,7 @@
         transition: all 0.2s;
 
         &:hover {
-            background: darken($theme-primary-color, 10%);
+            background: rgba($theme-primary-color, .9);
             transform: translateY(-1px);
         }
 
