@@ -17,6 +17,12 @@ export interface Compra {
   tipoPagamento: 'CARTAO' | 'PIX';
   dataPagamento: string;
   dataCompra: string;
+  produto: {
+      id: number;
+      nome: string;
+      descricao: string;
+      linkImagem: string
+  }
   statusPagamento: 'PENDENTE' | 'FINALIZADO';
 }
 
